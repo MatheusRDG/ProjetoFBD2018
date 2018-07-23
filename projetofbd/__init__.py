@@ -1,1 +1,3 @@
-#Projeto FBD
+import BancoDeDados
+
+BancoDeDados.conectarAoBanco()
