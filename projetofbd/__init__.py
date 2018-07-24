@@ -1,6 +1,3 @@
-import BancoDeDados
+from BancoDeDados import *
 
-clientes = BancoDeDados.select("SELECT * FROM cliente")
-
-for i in clientes:
-    print(i)
+banco = Banco('localhost', 'root', '', 'servicos_limpeza')

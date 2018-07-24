@@ -3,33 +3,36 @@
 import pymysql
 from pymysql import MySQLError
 
-connection = pymysql.connect(host='localhost',user='root',password='',database = 'servicos_limpeza')
-cursor = connection.cursor()
+class Banco:
 
-def select(querySql):
-    try:
-        cursor.execute(querySql)
-        return cursor.fetchall()
-    except MySQLError as e:
-        print('Got error {!r}, errno is {}'.format(e, e.args[0]))
+    def __init__(self,host,user,password,database):
+        self.CONNECTION = pymysql.connect(host,user,password,database)
+        self.CURSOR = self.CONNECTION.cursor()
 
-def insert(querySql):
-    try:
-        cursor.execute(querySql)
-        connection.commit()
-    except MySQLError as e:
-        print('Got error {!r}, errno is {}'.format(e, e.args[0]))
+    def select(self,querySql):
+        try:
+            self.CURSOR.execute(querySql)
+            return self.CURSOR.fetchall()
+        except MySQLError as e:
+            print('Got error {!r}, errno is {}'.format(e, e.args[0]))
 
-def delete(querySql):
-    try:
-        cursor.execute(querySql)
-        connection.commit()
-    except MySQLError as e:
-        print('Got error {!r}, errno is {}'.format(e, e.args[0]))
+    def insert(self,querySql):
+        try:
+            self.CURSOR.execute(querySql)
+            self.CONNECTION.commit()
+        except MySQLError as e:
+            print('Got error {!r}, errno is {}'.format(e, e.args[0]))
 
-def update(querySql):
-    try:
-        cursor.execute(querySql)
-        connection.commit()
-    except MySQLError as e:
-        print('Got error {!r}, errno is {}'.format(e, e.args[0]))
+    def delete(self,querySql):
+        try:
+            self.CURSOR.execute(querySql)
+            self.CONNECTION.commit()
+        except MySQLError as e:
+            print('Got error {!r}, errno is {}'.format(e, e.args[0]))
+
+    def update(self,querySql):
+        try:
+            self.CURSOR.execute(querySql)
+            self.CONNECTION.commit()
+        except MySQLError as e:
+            print('Got error {!r}, errno is {}'.format(e, e.args[0]))
