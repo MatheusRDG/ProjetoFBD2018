@@ -20,8 +20,9 @@ class Banco:
         try:
             self.CURSOR.execute(querySql)
             self.CONNECTION.commit()
+            return 'Operação realizada com sucesso'
         except MySQLError as e:
-            print('Got error {!r}, errno is {}'.format(e, e.args[0]))
+            return 'Got error {!r}, errno is {}'.format(e, e.args[0])
 
     def delete(self,querySql):
         try:
