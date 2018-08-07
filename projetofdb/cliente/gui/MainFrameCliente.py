@@ -9,7 +9,6 @@ class Application:
     def __init__(self, master):
         self.master = master
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
-        self.master.minsize(width=360, height=450)#Fixando as dimensões do frame master
         self.master.resizable(width=0, height=0)#Retirando o opção de maximização do frame master
         self.fontErro = ("Arial", "8", "italic")#Estilo de fonte para as mensagens de erro
 
@@ -92,7 +91,7 @@ class Application:
         self.btnApagar = ttk.Button(text='Deletar cliente', command=self.selecionarItem)
         self.btnApagar.grid(row=4, column=3, sticky=N)
         self.btnAtualizar = ttk.Button(text='Atualizar cliente')
-        self.btnAtualizar.grid(row=4, column=3, sticky=S, padx=10)
+        self.btnAtualizar.grid(row=4, column=3, sticky=S, padx=10, pady=10)
 
     def montarEndereco(self):
         return self.rua.get().strip() + ", " + self.complemento.get().strip() + ". " + self.cidade.get().strip() + ", " + self.estado.get() + "."

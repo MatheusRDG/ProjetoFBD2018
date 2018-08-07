@@ -87,11 +87,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainFrameCliente.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MainFrameCliente.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cliente/gui/MainFrameCliente.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="137" column="46" lean-forward="true" selection-start-line="137" selection-start-column="46" selection-end-line="137" selection-end-column="46" />
+            <state relative-caret-position="187">
+              <caret line="11" column="50" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -99,19 +99,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClienteServices.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cliente/negocio/ClienteServices.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="103" selection-start-line="9" selection-start-column="103" selection-end-line="9" selection-end-column="103" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="MainFrameEmpregado.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
+            <state relative-caret-position="2312">
               <caret line="136" column="37" selection-start-line="136" selection-start-column="37" selection-end-line="136" selection-end-column="37" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
@@ -151,6 +142,8 @@
     <findStrings>
       <find>print</find>
       <find>criarEmpre</find>
+      <find>Empregado</find>
+      <find>tree</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -178,10 +171,10 @@
         <option value="$PROJECT_DIR$/empregado/dominio/Empregado.py" />
         <option value="$PROJECT_DIR$/habilitacao/dominio/Habilitacao.py" />
         <option value="$PROJECT_DIR$/itemPedido/dominio/ItemPedido.py" />
-        <option value="$PROJECT_DIR$/cliente/gui/MainFrameCliente.py" />
         <option value="$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py" />
         <option value="$PROJECT_DIR$/empregado/negocio/EmpregadoServices.py" />
         <option value="$PROJECT_DIR$/cliente/negocio/ClienteServices.py" />
+        <option value="$PROJECT_DIR$/cliente/gui/MainFrameCliente.py" />
       </list>
     </option>
   </component>
@@ -628,16 +621,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="136" column="37" selection-start-line="136" selection-start-column="37" selection-end-line="136" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/empregado/negocio/EmpregadoServices.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="223">
@@ -645,20 +628,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cliente/gui/MainFrameCliente.py">
+    <entry file="file://$PROJECT_DIR$/cliente/negocio/ClienteServices.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="137" column="46" lean-forward="true" selection-start-line="137" selection-start-column="46" selection-end-line="137" selection-end-column="46" />
+        <state relative-caret-position="243">
+          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2312">
+          <caret line="136" column="37" selection-start-line="136" selection-start-column="37" selection-end-line="136" selection-end-column="37" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cliente/negocio/ClienteServices.py">
+    <entry file="file://$PROJECT_DIR$/cliente/gui/MainFrameCliente.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="103" selection-start-line="9" selection-start-column="103" selection-end-line="9" selection-end-column="103" />
+        <state relative-caret-position="187">
+          <caret line="11" column="50" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
