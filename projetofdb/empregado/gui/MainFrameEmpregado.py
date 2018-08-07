@@ -1,8 +1,9 @@
 from tkinter import*
 from tkinter import ttk
-from empregado.negocio import EmpregadoServices
+from empregado.negocio.EmpregadoServices import EmpregadoServices
+from empregado.dominio.Empregado import Empregado
 
-empragadoServices = EmpregadoServices.EmpregadoServices()
+empragadoServices = EmpregadoServices()
 
 class Application:
     def __init__(self, master):
@@ -74,19 +75,7 @@ class Application:
             verificador = False
 
         if verificador:
-            query = "INSERT INTO empregado VALUES (" + matricula + "," + "'" + nome + "'" + ")"
-            self.inserirEmpregado(query)
-
-    #Método de inserção do empregado no banco de dados
-    def inserirEmpregado(self, query):
-        verificador = empragadoServices.inserirEmpregado(query)
-        self.validarCadastro(verificador)
-
-    #Método que remove empregado do banco de dados
-    def removerEmpregado(self, matricula):
-        if empragadoServices.deletarEmpregado("DELETE FROM empregado WHERE matricula = " + matricula):
-            self.texto["text"] = "Empregado excluído com sucesso"
-            self.selectALL()
+            self.inserirEmpregado(self.criarEmpregado(matricula, nome))
 
     #Método de validação do cadastro (regras de negócio)
     def validarCadastro(self, verificador):
@@ -102,13 +91,27 @@ class Application:
         else:
             self.texto.grid()
             self.texto["text"] = "Empregado cadstrado com sucesso!"
-            self.selectALL()
+            self.listarEmpregados()
 
-    #Limpando as labels para evitar mensagens de erros inconsistentes
-    def limparLabels(self):
-        self.erroMatricula["text"] = ""
-        self.erroNome["text"] = ""
-        self.texto["text"] = ""
+    #Método de inserção do empregado no banco de dados
+    def inserirEmpregado(self, empregado):
+        verificador = empragadoServices.inserirEmpregado(empregado)
+        self.validarCadastro(verificador)
+
+    #Método que remove empregado do banco de dados
+    def removerEmpregado(self, empregado):
+        self.limparLabels()
+        verificador = empragadoServices.deletarEmpregado(empregado)
+        if verificador == None:
+            self.texto["text"] = "Empregado excluído com sucesso"
+            self.listarEmpregados()
+        else:
+            self.texto["text"] = verificador
+
+    def criarEmpregado(self, matricula, nome):
+        empregado = Empregado(matricula, nome)
+
+        return empregado
 
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
@@ -122,19 +125,26 @@ class Application:
         self.tree.column("matricula", anchor="center", width=120)
         self.tree.heading("nome", text="Nome")
         self.tree.column("nome", anchor="center", width=170)
-        self.selectALL()
+        self.listarEmpregados()
 
     #Recuperando elemento selecionado na árvore
     def selecionarItem(self):
         itemSelecionado = self.tree.focus()
-        self.removerEmpregado(str(self.tree.item(itemSelecionado)['values'][0]))
+        matricula, nome = str(self.tree.item(itemSelecionado)['values'][0]), self.tree.item(itemSelecionado)['values'][1]
+        self.removerEmpregado(self.criarEmpregado(matricula, nome))
 
     #Selecionando todos os dados da tabela empregado e inserindo no TreeView
-    def selectALL(self):
+    def listarEmpregados(self):
         self.tree.delete(*self.tree.get_children())#Removendo todos os nodos da árvore
-        self.empregados = empragadoServices.selectALL("SELECT * FROM empregado")
+        self.empregados = empragadoServices.listarEmpregados("SELECT * FROM empregado")
         for i in self.empregados:
             self.tree.insert("", "end", text="Person", values=i)
+
+    #Limpando as labels para evitar mensagens de erros inconsistentes
+    def limparLabels(self):
+        self.erroMatricula["text"] = ""
+        self.erroNome["text"] = ""
+        self.texto["text"] = ""
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
 if __name__ == '__main__':
