@@ -6,6 +6,7 @@ from empregado.dominio.Empregado import Empregado
 empragadoServices = EmpregadoServices()
 
 class Application:
+
     def __init__(self, master):
         self.master = master
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
@@ -18,7 +19,7 @@ class Application:
         self.frame.grid(row=0, column=1)
 
         Label(self.frame, text = 'Matrícula:').grid(row=3, column=0)
-        self.matricula = Entry(self.frame, width=32)
+        self.matricula = Entry(self.frame, width=32, bd=2)
         self.matricula.grid(row=3, column=2)
 
         #Label de exibição das mensagens de erros referentes ao campo Matrícula
@@ -26,7 +27,7 @@ class Application:
         self.erroMatricula.grid(row=4, column=2)
 
         Label(self.frame, text='Nome:').grid(row=5, column=0)
-        self.nome = Entry(self.frame, width=32)
+        self.nome = Entry(self.frame, width=32, bd=2)
         self.nome.grid(row=5, column=2)
 
         #Label de exibição das mensagens de erros referentes ao campo Nome
@@ -63,7 +64,7 @@ class Application:
         verificador = True
         if matricula == "":
             self.erroMatricula.grid()
-            self.erroMatricula["text"] = "*Campo nome não pode ficar vazio"
+            self.erroMatricula["text"] = "*Campo telefone não pode ficar vazio"
             verificador = False
         elif not str(matricula).isdigit():
             self.erroMatricula.grid()
@@ -71,11 +72,11 @@ class Application:
             verificador = False
         if nome == "":
             self.erroNome.grid()
-            self.erroNome["text"] = "*Campo nome não pode ficar vazio"
+            self.erroNome["text"] = "*Campo telefone não pode ficar vazio"
             verificador = False
 
         if verificador:
-            self.inserirEmpregado(self.criarEmpregado(matricula, nome))
+            self.inserirEmpregado(Empregado(matricula, nome))
 
     #Método de validação do cadastro (regras de negócio)
     def validarCadastro(self, verificador):
@@ -108,11 +109,6 @@ class Application:
         else:
             self.texto["text"] = verificador
 
-    def criarEmpregado(self, matricula, nome):
-        empregado = Empregado(matricula, nome)
-
-        return empregado
-
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
         self.tree = ttk.Treeview(self.master,height=10, columns=2, selectmode='browse')
@@ -131,14 +127,17 @@ class Application:
     def selecionarItem(self):
         itemSelecionado = self.tree.focus()
         matricula, nome = str(self.tree.item(itemSelecionado)['values'][0]), self.tree.item(itemSelecionado)['values'][1]
-        self.removerEmpregado(self.criarEmpregado(matricula, nome))
+        self.removerEmpregado(Empregado(matricula, nome))
 
     #Selecionando todos os dados da tabela empregado e inserindo no TreeView
     def listarEmpregados(self):
         self.tree.delete(*self.tree.get_children())#Removendo todos os nodos da árvore
         self.empregados = empragadoServices.listarEmpregados("SELECT * FROM empregado")
-        for i in self.empregados:
-            self.tree.insert("", "end", text="Person", values=i)
+        if self.empregados != None:
+            for i in self.empregados:
+                self.tree.insert("", "end", text="Person", values=i)
+        else:
+            self.texto['text'] = self.empregados
 
     #Limpando as labels para evitar mensagens de erros inconsistentes
     def limparLabels(self):

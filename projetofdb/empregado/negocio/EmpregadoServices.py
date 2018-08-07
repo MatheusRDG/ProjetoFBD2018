@@ -4,11 +4,11 @@ class EmpregadoServices:
 
     def __init__(self):
         self.connection = BancoDados.Banco("localhost", "root", "", "servicos_limpeza")
-        self.boolean = None
 
     def inserirEmpregado(self, empregado):
         try:
-            self.connection.insert("INSERT INTO empregado VALUES (" + empregado.getMatricula() + "," + "'" + empregado.getNome() + "'" + ")")
+            atributos = "('" + empregado.getMatricula() + "'" + "," + "'" + empregado.getNome() + "'" + ")"
+            self.connection.insert("INSERT INTO empregado VALUES " + atributos)
         except Exception as e:
             return e.args[0]
 
@@ -22,4 +22,4 @@ class EmpregadoServices:
         try:
             return self.connection.selecionarTodos(query)
         except Exception as e:
-            print('Got error {!r}, errno is {}'.format(e, e.args[0]))
+            return e
