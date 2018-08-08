@@ -13,7 +13,7 @@ class Application:
         self.fontErro = ("Arial", "8", "italic")#Estilo de fonte para as mensagens de erro
 
         #LabelFrame que comporta as Labels e Entrys presentes no frame
-        self.frame = LabelFrame(self.master, text='Cadastrar novo pedido', bd=10, padx=10)
+        self.frame = LabelFrame(self.master, bd=10, padx=10)
         self.frame.grid(row=0, column=0)
 
         Label(self.frame, text = 'Número:').grid(row=3, column=0)
@@ -60,7 +60,7 @@ class Application:
 
         #Label de exibição das mensagens de erros relacionadas as regras de negócio
         self.texto = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.texto.grid(row=14, column=2)
+        self.texto.grid(row=15, column=2)
 
         #Populando árvore
         self.popular_arvore()
@@ -69,15 +69,15 @@ class Application:
         self.barra = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
 
         #Adiciona barra de rolagem
-        self.barra.place(x=620, y=286, height=218 + 10)
+        self.barra.place(x=620, y=315, height=218 + 10)
 
         self.tree.configure(yscroll=self.barra.set)
 
         #Botões de interação
-        self.btnApagar = ttk.Button(text='Deletar cliente')
-        self.btnApagar.grid(row=4, column=5, sticky=N)
-        self.btnAtualizar = ttk.Button(text='Atualizar cliente')
-        self.btnAtualizar.grid(row=4, column=5, sticky=S, padx=10, pady=10)
+        self.btnApagar = ttk.Button(text='DELETAR', command=self.removerPedido)
+        self.btnApagar.grid(row=4, column=5)
+        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
+        self.btnAtualizar.grid(row=14, column=2, padx=10, pady=5)
 
     # Método para validação dos campos
     def validarCampos(self):
@@ -121,11 +121,33 @@ class Application:
             if self.validarCadastro(verificador):
                 self.texto.grid()
                 self.texto["text"] = "Pedido cadastrado com sucesso"
-                #self.listarPedido()
+                self.listarPedidos()
 
+    #Método que remove cliente do banco de dados
+    def removerPedido(self):
+        self.limparLabels()
+        cliente = self.selecionarItem()
+        verificador = pedidoServices.removerPedido(cliente)
+        if verificador == None:
+            self.texto["text"] = "Pedido excluído com sucesso"
+            self.listarPedidos()
+        else:
+            self.texto["text"] = verificador
+
+    #Recuperando elemento selecionado na árvore
+    def selecionarItem(self):
+        itemSelecionado = self.tree.focus()
+        numero, codigo_cliente, data_abertura, local, data_realizacao = (
+                                        str(self.tree.item(itemSelecionado)['values'][0]),
+                                        self.tree.item(itemSelecionado)['values'][1],
+                                        self.tree.item(itemSelecionado)['values'][2],
+                                        self.tree.item(itemSelecionado)['values'][3],
+                                        self.tree.item(itemSelecionado)['values'][4])
+        return Pedido(numero, codigo_cliente, data_abertura, local, data_realizacao)
+
+    #Validação dos cadastros
     def validarCadastro(self, verificador):
         booleano = True
-        print(verificador)
         self.limparLabels()
         if verificador != None:
             if verificador.args[0] == 1062:
@@ -145,6 +167,18 @@ class Application:
                     self.erroCodigoCliente.grid()
                     self.erroCodigoCliente["text"] = "Código do cliente: máximo de 11 caracteres"
                     booleano = False
+            elif verificador.args[0] == 1292:
+                self.erroDataAbertura.grid()
+                self.erroDataAbertura["text"] = "*Digite a data no seguinte formato: AAAA-MM-DD"
+                booleano = False
+            elif verificador.args[0] == 1292:
+                self.erroDataRealizacao.grid()
+                self.erroDataRealizacao["text"] = "*Digite a data no seguinte formato: AAAA-MM-DD"
+                booleano = False
+            elif verificador.args[0] == 1452:
+                self.texto.grid()
+                self.texto["text"] = "*Cliente não cadastrado no banco"
+                booleano = False
         return booleano
 
     def limparLabels(self):
@@ -171,6 +205,18 @@ class Application:
             self.tree.column("local", anchor="center", width=200)
             self.tree.heading("data_realizacao", text="Data realização")
             self.tree.column("data_realizacao", anchor="center", width=120)
+            self.listarPedidos()
+
+    #Selecionando todos os dados da tabela pedido e inserindo no TreeView
+    def listarPedidos(self):
+        self.tree.delete(*self.tree.get_children())  # Removendo todos os nodos da árvore
+        self.pedidos = pedidoServices.listarPedidos("SELECT * FROM pedido")
+        if self.pedidos != None:
+            for i in self.pedidos:
+                self.tree.insert("", "end", text="Person", values=i)
+        else:
+            self.texto["text"] = self.pedidos
+
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
 if __name__ == '__main__':

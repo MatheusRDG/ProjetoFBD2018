@@ -116,48 +116,8 @@ class Application:
         #Botões de interação
         self.btnApagar = ttk.Button(text='Deletar cliente', command=self.removerCliente)
         self.btnApagar.grid(row=4, column=3, sticky=N)
-        self.btnAtualizar = ttk.Button(text='Atualizar cliente', command=self.frameAtualizar)
+        self.btnAtualizar = ttk.Button(text='Atualizar cliente')
         self.btnAtualizar.grid(row=4, column=3, sticky=S, padx=10, pady=10)
-
-    def frameAtualizar(self):
-        if self.tree.focus() != "":
-            #Falta continuar
-            clienteSelecionado = self.selecionarItem()
-            topLevel = Toplevel()
-            topLevel.title("Atualizar cliente")
-            topLevel.geometry("300x300+100+100")
-            topLevel.resizable(width=0, height=0)  # Retirando o opção de maximização do frame master
-            topLevel.grab_set()#Direcinando o foco para a nova label
-            self.inserirWidgets(topLevel)
-
-    def inserirWidgets(self, topLevel):
-        labelCodigo = Label(topLevel, text="Código", height=0, width=100)
-        labelCodigo.pack()
-        entryCodigo = Entry(topLevel, width=32, bd=2)
-        entryCodigo.pack()
-        labelTelefone = Label(topLevel, text="Telefone", height=0, width=100)
-        labelTelefone.pack()
-        entryTelefone = Entry(topLevel, width=32, bd=2)
-        entryTelefone.pack()
-        labelRua = Label(topLevel, text="Rua", height=0, width=100)
-        labelRua.pack()
-        entryRua = Entry(topLevel, width=32, bd=2)
-        entryRua.pack()
-        labelComplemento = Label(topLevel, text="Complemento", height=0, width=100)
-        labelComplemento.pack()
-        entryComplemento = Entry(topLevel, width=32, bd=2)
-        entryComplemento.pack()
-        labelCidade = Label(topLevel, text="Cidade", height=0, width=100)
-        labelCidade.pack()
-        entryCidade = Entry(topLevel, width=32, bd=2)
-        entryCidade.pack()
-        labelEstado = Label(topLevel, text='Estado:', height=0, width=100)
-        labelEstado.pack()
-        boxEstados = ttk.Combobox(topLevel, width=29, state="readonly")
-        boxEstados['values'] = (self.estados)
-        boxEstados.pack()
-        buttonAlterar = ttk.Button(topLevel, text='ALTERAR')
-        buttonAlterar.pack(pady=10)
 
     def montarEndereco(self):
         return self.rua.get().strip() + ", " + self.complemento.get().strip() + ". " + self.cidade.get().strip() + ", " + self.estado.get() + "."
