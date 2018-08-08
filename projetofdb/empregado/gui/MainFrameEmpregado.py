@@ -47,7 +47,7 @@ class Application:
         self.barra = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
 
         #Adiciona barra de rolagem
-        self.barra.place(x=277, y=155, height=216 + 10)
+        self.barra.place(x=300, y=154, height=217 + 10)
 
         self.tree.configure(yscroll=self.barra.set)
 
@@ -55,7 +55,7 @@ class Application:
         self.btnApagar = ttk.Button(text='Deletar empregado', command=self.selecionarItem)
         self.btnApagar.grid(row=4, column=3, sticky=N)
         self.btnAtualizar = ttk.Button(text='Atualizar empregado')
-        self.btnAtualizar.grid(row=4, column=3, sticky=S)
+        self.btnAtualizar.grid(row=4, column=3, sticky=S, padx=10)
 
     #Método para validação dos campos
     def validarCampos(self):
@@ -64,7 +64,7 @@ class Application:
         verificador = True
         if matricula == "":
             self.erroMatricula.grid()
-            self.erroMatricula["text"] = "*Campo telefone não pode ficar vazio"
+            self.erroMatricula["text"] = "*Campo matrícula não pode ficar vazio"
             verificador = False
         elif not str(matricula).isdigit():
             self.erroMatricula.grid()
@@ -72,7 +72,7 @@ class Application:
             verificador = False
         if nome == "":
             self.erroNome.grid()
-            self.erroNome["text"] = "*Campo telefone não pode ficar vazio"
+            self.erroNome["text"] = "*Campo nome não pode ficar vazio"
             verificador = False
 
         if verificador:
@@ -81,14 +81,17 @@ class Application:
     #Método de validação do cadastro (regras de negócio)
     def validarCadastro(self, verificador):
         self.limparLabels()
-        if verificador == 1062:
-            self.texto.grid()
-            self.texto["text"] = "Empregado já cadastrado no sistema"
-        elif verificador == 1406:
-            self.erroNome.grid()
-            self.erroMatricula.grid()
-            self.erroNome["text"] = "Nome: máximo de 100 caracteres"
-            self.erroMatricula["text"] = "Matrícula: máximo de 11 caracteres"
+        if verificador != None:
+            if verificador.args[0] == 1062:
+                self.texto.grid()
+                self.texto["text"] = "Empregado já cadastrado no sistema"
+            elif verificador.args[0] == 1406:
+                if "nome" in verificador.args[1]:
+                    self.erroNome.grid()
+                    self.erroNome["text"] = "Nome: máximo de 100 caracteres"
+                else:
+                    self.erroMatricula.grid()
+                    self.erroMatricula["text"] = "Matrícula: máximo de 11 caracteres"
         else:
             self.texto.grid()
             self.texto["text"] = "Empregado cadstrado com sucesso!"
@@ -120,7 +123,7 @@ class Application:
         self.tree.heading("matricula", text="Matrícula")
         self.tree.column("matricula", anchor="center", width=120)
         self.tree.heading("nome", text="Nome")
-        self.tree.column("nome", anchor="center", width=170)
+        self.tree.column("nome", anchor="center", width=190)
         self.listarEmpregados()
 
     #Recuperando elemento selecionado na árvore

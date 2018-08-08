@@ -10,7 +10,7 @@ class EmpregadoServices:
             atributos = "('" + empregado.getMatricula() + "'" + "," + "'" + empregado.getNome() + "'" + ")"
             self.connection.insert("INSERT INTO empregado VALUES " + atributos)
         except Exception as e:
-            return e.args[0]
+            return e
 
     def deletarEmpregado(self, empregado):
         try:

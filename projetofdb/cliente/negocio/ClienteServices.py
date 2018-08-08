@@ -7,10 +7,13 @@ class ClienteServices:
 
     def inserirCliente(self, cliente):
         try:
-            atributos = "('" + cliente.getCodigo() + "'" + "," + "'" + cliente.getTelefone() + "'" + "," + "'" + cliente.getEndereco() + "'" + ")"
+            if cliente.getEndereco() == ", . , .":
+                atributos = "('" + cliente.getCodigo() + "'" + "," + "'" + cliente.getTelefone() + "'" + "," + " null)"
+            else:
+                atributos = "('" + cliente.getCodigo() + "'" + "," + "'" + cliente.getTelefone() + "'" + "," + "'" + cliente.getEndereco() + "'" + ")"
             self.connection.insert("INSERT INTO cliente VALUES " + atributos)
         except Exception as e:
-            return e.args[0]
+            return e
 
     def removerCliente(self, cliente):
         try:

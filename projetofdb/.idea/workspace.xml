@@ -90,8 +90,8 @@
       <file leaf-file-name="MainFrameCliente.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cliente/gui/MainFrameCliente.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="50" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
+            <state relative-caret-position="119">
+              <caret line="123" column="28" selection-start-line="123" selection-start-column="28" selection-end-line="123" selection-end-column="28" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -99,14 +99,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainFrameEmpregado.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py">
+      <file leaf-file-name="ValidarCpfCnpj.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/infraestrutura/utils/ValidarCpfCnpj.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2312">
-              <caret line="136" column="37" selection-start-line="136" selection-start-column="37" selection-end-line="136" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#20#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="51">
+              <caret line="30" column="84" lean-forward="true" selection-start-line="30" selection-start-column="84" selection-end-line="30" selection-end-column="84" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClienteServices.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cliente/negocio/ClienteServices.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="27" column="20" lean-forward="true" selection-start-line="23" selection-start-column="4" selection-end-line="27" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PessoaFisicaServices.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pessoaFisica/negocio/PessoaFisicaServices.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="20" column="8" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -114,17 +129,8 @@
       <file leaf-file-name="EmpregadoServices.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/empregado/negocio/EmpregadoServices.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="16" column="73" selection-start-line="16" selection-start-column="73" selection-end-line="16" selection-end-column="73" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Cliente.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cliente/dominio/Cliente.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="187">
+              <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -140,10 +146,16 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>print</find>
       <find>criarEmpre</find>
       <find>Empregado</find>
       <find>tree</find>
+      <find>get</find>
+      <find>matri</find>
+      <find>print</find>
+      <find>telefone</find>
+      <find>remover</find>
+      <find>selecio</find>
+      <find>Combo</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -162,7 +174,6 @@
         <option value="$PROJECT_DIR$/empregado/gui/tree_empregado.py" />
         <option value="$PROJECT_DIR$/cliente/gui/Cliente.py" />
         <option value="$PROJECT_DIR$/infraestrutura/banco/BancoDados.py" />
-        <option value="$PROJECT_DIR$/cliente/dominio/Cliente.py" />
         <option value="$PROJECT_DIR$/pessoaFisica/dominio/PessoaFisica.py" />
         <option value="$PROJECT_DIR$/pedido/dominio/Pedido.py" />
         <option value="$PROJECT_DIR$/alocacao/dominio/Alocacao.py" />
@@ -171,9 +182,13 @@
         <option value="$PROJECT_DIR$/empregado/dominio/Empregado.py" />
         <option value="$PROJECT_DIR$/habilitacao/dominio/Habilitacao.py" />
         <option value="$PROJECT_DIR$/itemPedido/dominio/ItemPedido.py" />
-        <option value="$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py" />
         <option value="$PROJECT_DIR$/empregado/negocio/EmpregadoServices.py" />
+        <option value="$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py" />
+        <option value="$PROJECT_DIR$/pessoaJuridica/negocio/PessoaJuridicaServices.py" />
+        <option value="$PROJECT_DIR$/cliente/dominio/Cliente.py" />
         <option value="$PROJECT_DIR$/cliente/negocio/ClienteServices.py" />
+        <option value="$PROJECT_DIR$/pessoaFisica/negocio/PessoaFisicaServices.py" />
+        <option value="$PROJECT_DIR$/infraestrutura/utils/ValidarCpfCnpj.py" />
         <option value="$PROJECT_DIR$/cliente/gui/MainFrameCliente.py" />
       </list>
     </option>
@@ -264,6 +279,33 @@
               <item name="empregado" type="462c0819:PsiDirectoryNode" />
               <item name="negocio" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="projetofdb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projetofdb" type="462c0819:PsiDirectoryNode" />
+              <item name="infraestrutura" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="projetofdb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projetofdb" type="462c0819:PsiDirectoryNode" />
+              <item name="infraestrutura" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="projetofdb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projetofdb" type="462c0819:PsiDirectoryNode" />
+              <item name="pessoaFisica" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="projetofdb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projetofdb" type="462c0819:PsiDirectoryNode" />
+              <item name="pessoaFisica" type="462c0819:PsiDirectoryNode" />
+              <item name="negocio" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="projetofdb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="projetofdb" type="462c0819:PsiDirectoryNode" />
+              <item name="pessoaJuridica" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -283,6 +325,7 @@
       <recent name="C:\Users\User\PycharmProjects\teste\projetofdb\empregado\infraestrutura" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Documents\GitKraken\ProjetoFBD2018\projetofdb\pessoaJuridica" />
       <recent name="C:\Users\User\PycharmProjects\teste\projetofdb\empregado\gui" />
     </key>
   </component>
@@ -363,13 +406,13 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18154761" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1904762" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50073206" side_tool="true" weight="0.3290938" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32838285" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Python Console" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32838285" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32838285" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49926794" weight="0.3290938" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -396,31 +439,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/infraestrutura/banco/BancoDados.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="37" column="14" lean-forward="true" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="44" lean-forward="true" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/empregado/gui/CadastrarEmpregadoFrame.py" />
-    <entry file="file://$PROJECT_DIR$/cliente/gui/Cliente.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/empregado/negocio/EmpregadoServices.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="58" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/infraestrutura/banco/BancoDados.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -535,13 +553,6 @@
     <entry file="file://$PROJECT_DIR$/empregado/gui/Banco.py" />
     <entry file="file://$PROJECT_DIR$/db.py" />
     <entry file="file://$PROJECT_DIR$/empregado/gui/MainFrame.py" />
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/tkinter/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="1548" selection-start-line="1548" selection-end-line="1548" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/empregado/gui/CadastrarEmpregadoFrame.py" />
     <entry file="file://$PROJECT_DIR$/empregado/dominio/__init__.py" />
     <entry file="file://$PROJECT_DIR$/infraestrutura/banco/BancoDados.py">
@@ -614,41 +625,75 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cliente/dominio/Cliente.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/pessoaJuridica/negocio/PessoaFisicaServices.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/empregado/negocio/EmpregadoServices.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="16" column="73" selection-start-line="16" selection-start-column="73" selection-end-line="16" selection-end-column="73" />
-        </state>
-      </provider>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/typeshed/stdlib/3/typing.pyi">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/cliente/negocio/ClienteServices.py">
+    <entry file="file://$PROJECT_DIR$/pessoaJuridica/negocio/PessoaJuridicaServices.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+        <state relative-caret-position="289">
+          <caret line="17" column="63" selection-start-line="17" selection-start-column="63" selection-end-line="17" selection-end-column="63" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2312">
-          <caret line="136" column="37" selection-start-line="136" selection-start-column="37" selection-end-line="136" selection-end-column="37" />
+        <state relative-caret-position="-135">
+          <caret line="74" column="48" selection-start-line="74" selection-start-column="48" selection-end-line="74" selection-end-column="48" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cliente/gui/MainFrameCliente.py">
+    <entry file="file://$PROJECT_DIR$/cliente/dominio/Cliente.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/empregado/negocio/EmpregadoServices.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="50" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
+          <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cliente/negocio/ClienteServices.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="20" lean-forward="true" selection-start-line="23" selection-start-column="4" selection-end-line="27" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python35/Lib/tkinter/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="2073" column="4" selection-start-line="2073" selection-start-column="4" selection-end-line="2073" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pessoaFisica/negocio/PessoaFisicaServices.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="20" column="8" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/infraestrutura/utils/ValidarCpfCnpj.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="30" column="84" lean-forward="true" selection-start-line="30" selection-start-column="84" selection-end-line="30" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cliente/gui/MainFrameCliente.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="123" column="28" selection-start-line="123" selection-start-column="28" selection-end-line="123" selection-end-column="28" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
