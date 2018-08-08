@@ -65,13 +65,13 @@ class Application:
         #Populando árvore
         self.popular_arvore()
 
-        #Cria barra de rolagem
-        self.barra = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
+        #Cria scrollbar_vertical de rolagem
+        self.scrollbar_vertical = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
 
-        #Adiciona barra de rolagem
-        self.barra.place(x=620, y=315, height=218 + 10)
+        #Adiciona scrollbar_vertical de rolagem
+        self.scrollbar_vertical.place(x=620, y=315, height=218 + 10)
 
-        self.tree.configure(yscroll=self.barra.set)
+        self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
         #Botões de interação
         self.btnApagar = ttk.Button(text='DELETAR', command=self.removerPedido)

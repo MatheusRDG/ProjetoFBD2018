@@ -15,6 +15,12 @@ class PessoaJuridicaServices:
 
     def removerPessoaJuridica(self, pessoaJuridica):
         try:
-            self.connection.delete("DELETE FROM pessoa_juridica WHERE codigo = " + pessoaJuridica.getCodigo())
+            self.connection.delete("DELETE FROM pessoa_juridica WHERE codigo_cliente = " + pessoaJuridica.getCodigo())
+        except Exception as e:
+            return e
+
+    def listarPessoas(self, query):
+        try:
+            return self.connection.selecionarTodos(query)
         except Exception as e:
             return e

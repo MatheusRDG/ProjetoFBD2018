@@ -15,7 +15,7 @@ class Application:
         self.fontErro = ("Arial", "8", "italic")#Estilo de fonte para as mensagens de erro
 
         #LabelFrame que comporta as Labels e Entrys dos campos "Matrícula" e "Nome"
-        self.frame = LabelFrame(self.master, text='Cadastrar novo empregado', bd=10, padx=10)
+        self.frame = LabelFrame(self.master, bd=10, padx=10)
         self.frame.grid(row=0, column=0)
 
         Label(self.frame, text = 'Matrícula:').grid(row=3, column=0)
@@ -43,10 +43,10 @@ class Application:
         #Populando árvore
         self.popular_arvore()
 
-        #Cria barra de rolagem
+        #Cria scrollbar_vertical de rolagem
         self.barra = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
 
-        #Adiciona barra de rolagem
+        #Adiciona scrollbar_vertical de rolagem
         self.barra.place(x=330, y=174, height=217 + 10)
 
         self.tree.configure(yscroll=self.barra.set)

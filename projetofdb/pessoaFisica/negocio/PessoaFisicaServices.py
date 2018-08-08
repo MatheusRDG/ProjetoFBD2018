@@ -14,7 +14,7 @@ class PessoaFisicaServices:
 
     def removerPessoaFisica(self, pessoaFisica):
         try:
-            self.connection.delete("DELETE FROM pessoa_fisica WHERE codigo = " + pessoaFisica.getCodigo())
+            self.connection.delete("DELETE FROM pessoa_fisica WHERE codigo_cliente = " + pessoaFisica.getCodigo())
         except Exception as e:
             return e
 

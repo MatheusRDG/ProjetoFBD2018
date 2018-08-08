@@ -27,7 +27,7 @@ class Application:
                                  "SC - Santa Catarina", "SP - São Paulo", "SE - Sergipe", "TO - Tocatins")
 
         #LabelFrame que comporta as Labels e Entrys presentes no frame
-        self.frame = LabelFrame(self.master, text='Cadastrar novo cliente', bd=10, padx=10)
+        self.frame = LabelFrame(self.master, bd=10, padx=10)
         self.frame.grid(row=0, column=0)
 
         Label(self.frame, text = 'Código:').grid(row=3, column=0)
@@ -105,13 +105,13 @@ class Application:
         #Populando árvore
         self.popular_arvore()
 
-        #Cria barra de rolagem
-        self.barra = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
+        #Cria scrollbar_vertical de rolagem
+        self.scrollbar_vertical = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
 
-        #Adiciona barra de rolagem
-        self.barra.place(x=390, y=400, height=218 + 10)
+        #Adiciona scrollbar_vertical de rolagem
+        self.scrollbar_vertical.place(x=390, y=394, height=218 + 10)
 
-        self.tree.configure(yscroll=self.barra.set)
+        self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
         #Botões de interação
         self.btnApagar = ttk.Button(text='Deletar cliente', command=self.removerCliente)
@@ -138,7 +138,7 @@ class Application:
             verificador = False
         if telefone == "":
             self.erroTelefone.grid()
-            self.erroTelefone["text"] = "*Campo telefone não pode ficar vazio"
+            self.erroTelefone["text"] = "*Campo cpf não pode ficar vazio"
             verificador = False
         if cpfCnpj == "":
             self.erroCpfCnpj.grid()
@@ -175,7 +175,7 @@ class Application:
                 self.texto["text"] = "Cliente já cadastrado no sistema"
                 booleano = False
             elif verificador.args[0] == 1406:
-                if "telefone" in verificador.args[1]:
+                if "cpf" in verificador.args[1]:
                     self.erroTelefone.grid()
                     self.erroTelefone["text"] = "Telefone: máximo de 20 caracteres"
                     booleano = False
@@ -243,13 +243,13 @@ class Application:
         self.tree = ttk.Treeview(self.master,height=10, columns=2, selectmode='browse')
         #self.tree.bind('<ButtonRelease-1>', self.selecionarItem)
         self.tree.grid(row=4, column=0, columnspan=3)
-        self.tree["columns"] = ("codigo", "telefone", "endereco")
+        self.tree["columns"] = ("codigo_cliente", "cpf", "endereco")
         self.tree.heading("#0", text="first", anchor="w")
         self.tree.column("#0", stretch=NO, width=0, anchor="w")
-        self.tree.heading("codigo", text="Código")
-        self.tree.column("codigo", anchor="center", width=100)
-        self.tree.heading("telefone", text="Telefone")
-        self.tree.column("telefone", anchor="center", width=100)
+        self.tree.heading("codigo_cliente", text="Código")
+        self.tree.column("codigo_cliente", anchor="center", width=100)
+        self.tree.heading("cpf", text="Telefone")
+        self.tree.column("cpf", anchor="center", width=100)
         self.tree.heading("endereco", text="Endereço")
         self.tree.column("endereco", anchor="center", width=200)
         self.listarClientes()

@@ -17,7 +17,7 @@ class ClienteServices:
 
     def removerCliente(self, cliente):
         try:
-            self.connection.delete("DELETE FROM cliente WHERE codigo = " + cliente.getCodigo())
+            self.connection.delete("DELETE FROM cliente WHERE codigo_cliente = " + cliente.getCodigo())
         except Exception as e:
             return e
 
