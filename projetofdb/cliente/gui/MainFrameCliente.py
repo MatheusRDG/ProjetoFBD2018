@@ -138,7 +138,7 @@ class Application:
             verificador = False
         if telefone == "":
             self.erroTelefone.grid()
-            self.erroTelefone["text"] = "*Campo cpf não pode ficar vazio"
+            self.erroTelefone["text"] = "*Campo descricao não pode ficar vazio"
             verificador = False
         if cpfCnpj == "":
             self.erroCpfCnpj.grid()
@@ -162,20 +162,20 @@ class Application:
             self.erroNomeRazaoSocial.grid()
             self.erroNomeRazaoSocial["text"] = "*Campo Nome/Razão Social não deve ficar vazio"
             verificador = False
-
         return verificador
 
     #Método de validação do cadastro (regras de negócio)
     def validarCadastroCliente(self, verificador):
         booleano = True
         self.limparLabels()
+        print(verificador)
         if verificador != None:
             if verificador.args[0] == 1062:
                 self.texto.grid()
                 self.texto["text"] = "Cliente já cadastrado no sistema"
                 booleano = False
             elif verificador.args[0] == 1406:
-                if "cpf" in verificador.args[1]:
+                if "telefone" in verificador.args[1]:
                     self.erroTelefone.grid()
                     self.erroTelefone["text"] = "Telefone: máximo de 20 caracteres"
                     booleano = False
@@ -189,7 +189,7 @@ class Application:
         booleano = True
         self.limparLabels()
         if verificador != None:
-            if verificador.args[0] == 1046:
+            if verificador.args[0] == 1406:
                 self.erroNomeRazaoSocial.grid()
                 self.erroNomeRazaoSocial["text"] = "Nome/Razão Social: máximo 100 caracteres"
                 booleano = False
@@ -214,6 +214,7 @@ class Application:
     #Inserindo pessoa física no banco
     def inserirPessoaFisica(self, pessoaFisica):
         verificador = pessoaFisicaServices.inserirPessoaFisica(pessoaFisica)
+        print(verificador)
         if self.validarCadastroPessoa(verificador):
             self.texto.grid()
             self.texto["text"] = "Cliente cadastrado com sucesso"
@@ -243,13 +244,13 @@ class Application:
         self.tree = ttk.Treeview(self.master,height=10, columns=2, selectmode='browse')
         #self.tree.bind('<ButtonRelease-1>', self.selecionarItem)
         self.tree.grid(row=4, column=0, columnspan=3)
-        self.tree["columns"] = ("codigo_cliente", "cpf", "endereco")
+        self.tree["columns"] = ("codigo_cliente", "descricao", "endereco")
         self.tree.heading("#0", text="first", anchor="w")
         self.tree.column("#0", stretch=NO, width=0, anchor="w")
         self.tree.heading("codigo_cliente", text="Código")
         self.tree.column("codigo_cliente", anchor="center", width=100)
-        self.tree.heading("cpf", text="Telefone")
-        self.tree.column("cpf", anchor="center", width=100)
+        self.tree.heading("descricao", text="Telefone")
+        self.tree.column("descricao", anchor="center", width=100)
         self.tree.heading("endereco", text="Endereço")
         self.tree.column("endereco", anchor="center", width=200)
         self.listarClientes()

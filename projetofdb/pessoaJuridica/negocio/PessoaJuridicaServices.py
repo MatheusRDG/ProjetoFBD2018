@@ -1,6 +1,5 @@
 from infraestrutura.banco import BancoDados
 
-
 class PessoaJuridicaServices:
 
     def __init__(self):

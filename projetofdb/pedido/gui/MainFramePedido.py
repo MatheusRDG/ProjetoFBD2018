@@ -168,13 +168,14 @@ class Application:
                     self.erroCodigoCliente["text"] = "Código do cliente: máximo de 11 caracteres"
                     booleano = False
             elif verificador.args[0] == 1292:
-                self.erroDataAbertura.grid()
-                self.erroDataAbertura["text"] = "*Digite a data no seguinte formato: AAAA-MM-DD"
-                booleano = False
-            elif verificador.args[0] == 1292:
-                self.erroDataRealizacao.grid()
-                self.erroDataRealizacao["text"] = "*Digite a data no seguinte formato: AAAA-MM-DD"
-                booleano = False
+                if "data_abertura" in verificador.args[1]:
+                    self.erroDataAbertura.grid()
+                    self.erroDataAbertura["text"] = "*Digite a data no seguinte formato: AAAA-MM-DD"
+                    booleano = False
+                else:
+                    self.erroDataRealizacao.grid()
+                    self.erroDataRealizacao["text"] = "*Digite a data no seguinte formato: AAAA-MM-DD"
+                    booleano = False
             elif verificador.args[0] == 1452:
                 self.texto.grid()
                 self.texto["text"] = "*Cliente não cadastrado no banco"

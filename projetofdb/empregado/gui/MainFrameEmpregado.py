@@ -72,7 +72,7 @@ class Application:
             verificador = False
         if nome == "":
             self.erroNome.grid()
-            self.erroNome["text"] = "*Campo nome não pode ficar vazio"
+            self.erroNome["text"] = "*Campo codigo não pode ficar vazio"
             verificador = False
 
         if verificador:
@@ -86,7 +86,7 @@ class Application:
                 self.texto.grid()
                 self.texto["text"] = "Empregado já cadastrado no sistema"
             elif verificador.args[0] == 1406:
-                if "nome" in verificador.args[1]:
+                if "codigo" in verificador.args[1]:
                     self.erroNome.grid()
                     self.erroNome["text"] = "Nome: máximo de 100 caracteres"
                 else:
@@ -117,13 +117,13 @@ class Application:
         self.tree = ttk.Treeview(self.master,height=10, columns=2, selectmode='browse')
         #self.tree.bind('<ButtonRelease-1>', self.selecionarItem)
         self.tree.grid(row=4, column=0, columnspan=2, pady=20, padx=20)
-        self.tree["columns"] = ("matricula", "nome")
+        self.tree["columns"] = ("matricula", "codigo")
         self.tree.heading("#0", text="first", anchor="w")
         self.tree.column("#0", stretch=NO, width=0, anchor="w")
         self.tree.heading("matricula", text="Matrícula")
         self.tree.column("matricula", anchor="center", width=120)
-        self.tree.heading("nome", text="Nome")
-        self.tree.column("nome", anchor="center", width=190)
+        self.tree.heading("codigo", text="Nome")
+        self.tree.column("codigo", anchor="center", width=190)
         self.listarEmpregados()
 
     #Recuperando elemento selecionado na árvore
