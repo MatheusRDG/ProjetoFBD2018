@@ -200,7 +200,7 @@ class Application:
                 verificador = False
         if nomeRazaoSocial == "":
             self.erroNomeRazaoSocial.grid()
-            self.erroNomeRazaoSocial["text"] = "*Campo Nome/Razão Social não deve fica vazio"
+            self.erroNomeRazaoSocial["text"] = "*Campo Nome/Razão Social não deve ficar vazio"
             verificador = False
 
         return verificador

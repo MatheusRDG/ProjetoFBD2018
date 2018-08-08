@@ -1,9 +1,9 @@
-from infraestrutura.banco import BancoDados
+from infraestrutura.banco.BancoDados import Banco
 
 class EmpregadoServices:
 
     def __init__(self):
-        self.connection = BancoDados.Banco("localhost", "root", "", "servicos_limpeza")
+        self.connection = Banco("localhost", "root", "", "servicos_limpeza")
 
     def inserirEmpregado(self, empregado):
         try:

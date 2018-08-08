@@ -16,7 +16,7 @@ class Application:
 
         #LabelFrame que comporta as Labels e Entrys dos campos "Matrícula" e "Nome"
         self.frame = LabelFrame(self.master, text='Cadastrar novo empregado', bd=10, padx=10)
-        self.frame.grid(row=0, column=1)
+        self.frame.grid(row=0, column=0)
 
         Label(self.frame, text = 'Matrícula:').grid(row=3, column=0)
         self.matricula = Entry(self.frame, width=32, bd=2)
@@ -47,7 +47,7 @@ class Application:
         self.barra = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
 
         #Adiciona barra de rolagem
-        self.barra.place(x=300, y=154, height=217 + 10)
+        self.barra.place(x=330, y=174, height=217 + 10)
 
         self.tree.configure(yscroll=self.barra.set)
 
@@ -116,7 +116,7 @@ class Application:
     def popular_arvore(self):
         self.tree = ttk.Treeview(self.master,height=10, columns=2, selectmode='browse')
         #self.tree.bind('<ButtonRelease-1>', self.selecionarItem)
-        self.tree.grid(row=4, column=0, columnspan=2)
+        self.tree.grid(row=4, column=0, columnspan=2, pady=20, padx=20)
         self.tree["columns"] = ("matricula", "nome")
         self.tree.heading("#0", text="first", anchor="w")
         self.tree.column("#0", stretch=NO, width=0, anchor="w")

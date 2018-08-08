@@ -33,5 +33,5 @@ class Pedido:
     def getLocal(self):
         return self._local
 
-    def getDataLocalizacao(self):
+    def getDataRealizacao(self):
         return self._data_localizacao
