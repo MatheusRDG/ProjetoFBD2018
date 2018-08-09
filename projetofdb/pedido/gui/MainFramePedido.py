@@ -88,7 +88,7 @@ class Application:
                 self.erroNumero.grid()
                 self.erroNumero["text"] = "*Campo número não pode ficar vazio"
                 verificador = False
-            elif not str(numero).isdigit():
+            elif not numero.isdigit():
                 self.erroNumero.grid()
                 self.erroNumero["text"] = "*Campo número só deve conter números"
                 verificador = False
@@ -96,7 +96,7 @@ class Application:
                 self.erroCodigoCliente.grid()
                 self.erroCodigoCliente["text"] = "*Campo código do cliente não pode ficar vazio"
                 verificador = False
-            elif not str(codigo_cliente).isdigit():
+            elif not codigo_cliente.isdigit():
                 self.erroCodigoCliente.grid()
                 self.erroCodigoCliente["text"] = "*Campo código do cliente só deve conter números"
                 verificador = False
@@ -126,24 +126,26 @@ class Application:
     #Método que remove cliente do banco de dados
     def removerPedido(self):
         self.limparLabels()
-        cliente = self.selecionarItem()
-        verificador = pedidoServices.removerPedido(cliente)
-        if verificador == None:
-            self.texto["text"] = "Pedido excluído com sucesso"
-            self.listarPedidos()
-        else:
-            self.texto["text"] = verificador
+        pedido = self.selecionarItem()
+        if pedido != None:
+            verificador = pedidoServices.removerPedido(pedido)
+            if verificador == None:
+                self.texto["text"] = "Pedido excluído com sucesso"
+                self.listarPedidos()
+            else:
+                self.texto["text"] = verificador
 
     #Recuperando elemento selecionado na árvore
     def selecionarItem(self):
         itemSelecionado = self.tree.focus()
-        numero, codigo_cliente, data_abertura, local, data_realizacao = (
-                                        str(self.tree.item(itemSelecionado)['values'][0]),
-                                        self.tree.item(itemSelecionado)['values'][1],
-                                        self.tree.item(itemSelecionado)['values'][2],
-                                        self.tree.item(itemSelecionado)['values'][3],
-                                        self.tree.item(itemSelecionado)['values'][4])
-        return Pedido(numero, codigo_cliente, data_abertura, local, data_realizacao)
+        if itemSelecionado != "":
+            numero, codigo_cliente, data_abertura, local, data_realizacao = (
+                                            str(self.tree.item(itemSelecionado)['values'][0]),
+                                            self.tree.item(itemSelecionado)['values'][1],
+                                            self.tree.item(itemSelecionado)['values'][2],
+                                            self.tree.item(itemSelecionado)['values'][3],
+                                            self.tree.item(itemSelecionado)['values'][4])
+            return Pedido(numero, codigo_cliente, data_abertura, local, data_realizacao)
 
     #Validação dos cadastros
     def validarCadastro(self, verificador):
@@ -152,21 +154,21 @@ class Application:
         if verificador != None:
             if verificador.args[0] == 1062:
                 self.texto.grid()
-                self.texto["text"] = "Pedido já cadastrado no sistema"
+                self.texto["text"] = "*Pedido já cadastrado no sistema"
                 booleano = False
             elif verificador.args[0] == 1406:
                 if "numero" in verificador.args[1]:
                     self.erroNumero.grid()
-                    self.erroNumero["text"] = "Número: máximo de 11 caracteres"
+                    self.erroNumero["text"] = "*Valor máximo excedido do número do pedido (máximo: 11 caracteres)"
                     booleano = False
-                elif "local" in verificador.args[1]:
+                if "local" in verificador.args[1]:
                     self.erroLocal.grid()
-                    self.erroLocal["text"] = "Local: máximo de 45 caracteres"
+                    self.erroLocal["text"] = "*Local: máximo de 45 caracteres"
                     booleano = False
-                else:
-                    self.erroCodigoCliente.grid()
-                    self.erroCodigoCliente["text"] = "Código do cliente: máximo de 11 caracteres"
-                    booleano = False
+            elif verificador.args[0] == 1264:
+                self.erroCodigoCliente.grid()
+                self.erroCodigoCliente["text"] = "*Valor máximo excedido do código do servico (máximo: 11 caracteres)"
+                booleano = False
             elif verificador.args[0] == 1292:
                 if "data_abertura" in verificador.args[1]:
                     self.erroDataAbertura.grid()
