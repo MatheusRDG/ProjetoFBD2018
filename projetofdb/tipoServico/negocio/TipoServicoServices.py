@@ -1,5 +1,4 @@
 from infraestrutura.banco import BancoDados
-from pymysql import MySQLError
 
 class TipoServicoServices:
 
@@ -8,18 +7,21 @@ class TipoServicoServices:
 
     def inserirTipoServico(self, tipoServico):
         try:
-            self.connection.insert("INSERT INTO tipo_servico VALUES (%s, %s, %s, %s)" %(tipoServico.getCodigo(), "'" + tipoServico.getDescricao() + "'", tipoServico.getDuracaoM2(), tipoServico.getValorM2()))
-        except MySQLError as e:
+            atributos = "('" + tipoServico.getCodigo() + "'" + "," + "'" + tipoServico.getDescricao() + "'" + "," + "'" + tipoServico.getDuracaoM2() \
+                        + "'" + "," + "'" + tipoServico.getValorM2() + "'" ")"
+            self.connection.insert("INSERT INTO tipo_servico VALUES " + atributos)
+        except Exception as e:
+            print(e)
             return e
 
     def removerTipoServico(self, tipoServico):
         try:
             self.connection.delete("DELETE FROM tipo_servico WHERE codigo = " + tipoServico.getCodigo())
-        except MySQLError as e:
+        except Exception as e:
             return e
 
     def listarTipos(self, query):
         try:
             return self.connection.selecionarTodos(query)
-        except MySQLError as e:
+        except Exception as e:
             return e

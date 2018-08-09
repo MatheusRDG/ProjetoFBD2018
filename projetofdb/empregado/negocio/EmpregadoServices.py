@@ -1,5 +1,4 @@
 from infraestrutura.banco.BancoDados import Banco
-from pymysql import MySQLError
 
 class EmpregadoServices:
 
@@ -8,18 +7,19 @@ class EmpregadoServices:
 
     def inserirEmpregado(self, empregado):
         try:
-            self.connection.insert("INSERT INTO empregado VALUES (%s, %s)" %(empregado.getMatricula(), "'" + empregado.getNome() + "'"))
-        except MySQLError as e:
+            atributos = "('" + empregado.getMatricula() + "'" + "," + "'" + empregado.getNome() + "'" + ")"
+            self.connection.insert("INSERT INTO empregado VALUES " + atributos)
+        except Exception as e:
             return e
 
     def deletarEmpregado(self, empregado):
         try:
             self.connection.delete("DELETE FROM empregado WHERE matricula = " + empregado.getMatricula())
-        except MySQLError as e:
+        except Exception as e:
             return e
 
     def listarEmpregados(self, query):
         try:
             return self.connection.selecionarTodos(query)
-        except MySQLError as e:
+        except Exception as e:
             return e

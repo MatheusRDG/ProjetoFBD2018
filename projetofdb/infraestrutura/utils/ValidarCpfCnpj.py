@@ -1,23 +1,31 @@
-import re
-
 class ValidarCpfCnpj:
 
     def __init__(self, cpf_cnpj):
         self.cpf_cnpj = cpf_cnpj
 
-    def isCpf(self):#By: hdiogenes -> https://pt.stackoverflow.com/questions/64608/como-validar-e-calcular-o-d%C3%ADgito-de-controle-de-um-cpf
-        cpf = ''.join(re.findall(r'\d', str(self.cpf_cnpj)))
+    def isCpf(self):
+        lista= []
+        var1, var2 = 10, 11
+        for i in (self.cpf_cnpj[0:9]):  # primeiro dígito
+            lista.append(int(i) * var1)
+            var1 -= 1
+        div = sum(lista) % 11
+        digito1 = 11 - div
+        if digito1 > 9:
+            valido = self.cpf_cnpj[0:9] + '0'
+        else:
+            valido = self.cpf_cnpj[0:9] + str(digito1)
+        for i in (valido[0:10]):
+            lista.append(int(i) * var2)
+            var2 -= 1
+        div = sum(lista[10:]) % 11
+        digito2 = 11 - div
+        if digito2 > 9:
+            valido = self.cpf_cnpj[0:10] + '0'
+        else:
+            valido = self.cpf_cnpj[0:10] + str(digito2)
 
-        antigo = [int(d) for d in cpf]
-        #Gera CPF com novos dígitos verificadores e compara com CPF informado
-        novo = antigo[:9]
-        while len(novo) < 11:
-            resto = sum([v * (len(novo) + 1 - i) for i, v in enumerate(novo)]) % 11
-            digito_verificador = 0 if resto <= 1 else 11 - resto
-            novo.append(digito_verificador)
-        if novo == antigo:
-            return True
-        return False
+        return (valido == self.cpf_cnpj)
 
     def isCnpj(self):#By: PythonBrasil -> https://wiki.python.org.br/VerificadorDeCpfCnpjSimples#CA-e0eee570d5fdfde7d52515349a1238c516293297_7
         # Pega apenas os 12 primeiros dígitos do CNPJ e gera os 2 dígitos que faltam

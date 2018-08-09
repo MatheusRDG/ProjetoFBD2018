@@ -40,14 +40,6 @@ class Application:
         #Populando árvore
         self.popular_arvore()
 
-        # Cria scrollbar_vertical de rolagem
-        self.scrollbar_vertical = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
-
-        # Adiciona scrollbar_vertical de rolagem
-        self.scrollbar_vertical.place(x=400, y=157, height=217 + 10)
-
-        self.tree.configure(yscroll=self.scrollbar_vertical.set)
-
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
             self.tree = ttk.Treeview(self.master, height=10, columns=2, selectmode='browse')
