@@ -36,26 +36,26 @@ class Application:
 
         #Label de exibição das mensagens de erros relacionadas as regras de negócio
         self.texto = Label(self.frame, text="", font=self.fontErro, fg="red")
-        self.texto.grid(row=8, column=2)
+        self.texto.grid(row=9, column=2)
 
-        self.btnAdd = ttk.Button(self.frame, text='CADASTRAR', command=self.validarCampos).grid(row=7, column=2)
+        self.btnCadastrar = ttk.Button(self.frame, text='CADASTRAR', command=self.inserirEmpregado).grid(row=7, column=2)
 
         #Populando árvore
         self.popular_arvore()
 
         #Cria scrollbar_vertical de rolagem
-        self.barra = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
+        self.scrollbar_vertical = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
 
         #Adiciona scrollbar_vertical de rolagem
-        self.barra.place(x=330, y=174, height=217 + 10)
+        self.scrollbar_vertical.place(x=330, y=212, height=217 + 10)
 
-        self.tree.configure(yscroll=self.barra.set)
+        self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
         #Botões de interação
-        self.btnApagar = ttk.Button(text='Deletar empregado', command=self.selecionarItem)
-        self.btnApagar.grid(row=4, column=3, sticky=N)
-        self.btnAtualizar = ttk.Button(text='Atualizar empregado')
-        self.btnAtualizar.grid(row=4, column=3, sticky=S, padx=10)
+        self.btnApagar = ttk.Button(text='DELETAR', command=self.removerEmpregado)
+        self.btnApagar.grid(row=4, column=3)
+        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
+        self.btnAtualizar.grid(row=8, column=2, pady=10)
 
     #Método para validação dos campos
     def validarCampos(self):
@@ -66,7 +66,7 @@ class Application:
             self.erroMatricula.grid()
             self.erroMatricula["text"] = "*Campo matrícula não pode ficar vazio"
             verificador = False
-        elif not str(matricula).isdigit():
+        elif not matricula.isdigit():
             self.erroMatricula.grid()
             self.erroMatricula["text"] = "*Campo matrícula só deve conter números"
             verificador = False
@@ -75,42 +75,49 @@ class Application:
             self.erroNome["text"] = "*Campo codigo não pode ficar vazio"
             verificador = False
 
-        if verificador:
-            self.inserirEmpregado(Empregado(matricula, nome))
+        return verificador
 
     #Método de validação do cadastro (regras de negócio)
     def validarCadastro(self, verificador):
         self.limparLabels()
+        booleano = True
         if verificador != None:
             if verificador.args[0] == 1062:
                 self.texto.grid()
-                self.texto["text"] = "Empregado já cadastrado no sistema"
+                self.texto["text"] = "*Empregado já cadastrado no sistema"
+                booleano = False
             elif verificador.args[0] == 1406:
-                if "codigo" in verificador.args[1]:
+                if "nome" in verificador.args[1]:
                     self.erroNome.grid()
-                    self.erroNome["text"] = "Nome: máximo de 100 caracteres"
+                    self.erroNome["text"] = "*Nome: máximo de 100 caracteres"
+                    booleano = False
                 else:
                     self.erroMatricula.grid()
-                    self.erroMatricula["text"] = "Matrícula: máximo de 11 caracteres"
-        else:
-            self.texto.grid()
-            self.texto["text"] = "Empregado cadstrado com sucesso!"
-            self.listarEmpregados()
+                    self.erroMatricula["text"] = "*Valor máximo excedido (máximo: 11 caracteres)"
+                    booleano = False
+        return booleano
+
 
     #Método de inserção do empregado no banco de dados
-    def inserirEmpregado(self, empregado):
-        verificador = empragadoServices.inserirEmpregado(empregado)
-        self.validarCadastro(verificador)
+    def inserirEmpregado(self):
+        if self.validarCampos():
+            verificador = empragadoServices.inserirEmpregado(Empregado(self.matricula.get().strip(), self.nome.get().strip()))
+            if self.validarCadastro(verificador):
+                self.texto.grid()
+                self.texto["text"] = "Empregado cadastrado com sucesso"
+                self.listarEmpregados()
 
     #Método que remove empregado do banco de dados
-    def removerEmpregado(self, empregado):
+    def removerEmpregado(self):
         self.limparLabels()
-        verificador = empragadoServices.deletarEmpregado(empregado)
-        if verificador == None:
-            self.texto["text"] = "Empregado excluído com sucesso"
-            self.listarEmpregados()
-        else:
-            self.texto["text"] = verificador
+        empregado = self.selecionarItem()
+        if empregado != None:
+            verificador = empragadoServices.deletarEmpregado(empregado)
+            if verificador == None:
+                self.texto["text"] = "Empregado excluído com sucesso"
+                self.listarEmpregados()
+            else:
+                self.texto["text"] = verificador
 
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
@@ -129,8 +136,9 @@ class Application:
     #Recuperando elemento selecionado na árvore
     def selecionarItem(self):
         itemSelecionado = self.tree.focus()
-        matricula, nome = str(self.tree.item(itemSelecionado)['values'][0]), self.tree.item(itemSelecionado)['values'][1]
-        self.removerEmpregado(Empregado(matricula, nome))
+        if itemSelecionado != "":
+            matricula, nome = str(self.tree.item(itemSelecionado)['values'][0]), self.tree.item(itemSelecionado)['values'][1]
+            return Empregado(matricula, nome)
 
     #Selecionando todos os dados da tabela empregado e inserindo no TreeView
     def listarEmpregados(self):

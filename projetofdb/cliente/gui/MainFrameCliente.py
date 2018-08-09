@@ -31,102 +31,109 @@ class Application:
         self.frame.grid(row=0, column=0)
 
         Label(self.frame, text = 'Código:').grid(row=3, column=0)
-        self.codigo = Entry(self.frame, width=32, bd=2)
-        self.codigo.grid(row=3, column=2)
+        self.codigo = Entry(self.frame, width=22, bd=2)
+        self.codigo.grid(row=3, column=1)
 
         #Label de exibição das mensagens de erros referentes ao campo código
         self.erroCodigo = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.erroCodigo.grid(row=4, column=2)
+        self.erroCodigo.grid(row=4, column=1)
 
         Label(self.frame, text='Telefone:').grid(row=5, column=0)
-        self.telefone = Entry(self.frame, width=32, bd=2)
-        self.telefone.grid(row=5, column=2)
+        self.telefone = Entry(self.frame, width=22, bd=2)
+        self.telefone.grid(row=5, column=1)
 
         #Label de exibição das mensagens de erros referentes ao campo "Telefone"
         self.erroTelefone = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.erroTelefone.grid(row=6, column=2)
+        self.erroTelefone.grid(row=6, column=1)
 
-        Label(self.frame, text='CPF/CNPJ:').grid(row=7, column=0)
-        self.cpfCnpj = Entry(self.frame, width=32, bd=2)
-        self.cpfCnpj.grid(row=7, column=2)
+        Label(self.frame, text='CPF/CNPJ:').grid(row=9, column=2)
+        self.cpfCnpj = Entry(self.frame, width=22, bd=2)
+        self.cpfCnpj.grid(row=9, column=3)
 
         # Label de exibição das mensagens de erros referentes ao campo "Cpf/Cnpj"
         self.erroCpfCnpj = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.erroCpfCnpj.grid(row=8, column=2)
+        self.erroCpfCnpj.grid(row=10, column=3)
 
         Label(self.frame, text='Nome/Razão Social:').grid(row=9, column=0)
-        self.nomeRazaoSocial = Entry(self.frame, width=32, bd=2)
-        self.nomeRazaoSocial.grid(row=9, column=2)
+        self.nomeRazaoSocial = Entry(self.frame, width=22, bd=2)
+        self.nomeRazaoSocial.grid(row=9, column=1)
 
         # Label de exibição das mensagens de erros referentes ao campo "Nome/Razão Social"
         self.erroNomeRazaoSocial = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.erroNomeRazaoSocial.grid(row=10, column=2)
+        self.erroNomeRazaoSocial.grid(row=10, column=1)
 
         Label(self.frame, text='Rua:').grid(row=11, column=0)
-        self.rua = Entry(self.frame, width=32, bd=2)
-        self.rua.grid(row=11, column=2)
+        self.rua = Entry(self.frame, width=22, bd=2)
+        self.rua.grid(row=11, column=1)
 
         #Label de exibição das mensagens de erros referentes ao campo "Rua"
         self.erroRua = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.erroRua.grid(row=12, column=2)
+        self.erroRua.grid(row=12, column=1)
 
-        Label(self.frame, text='Complemento:').grid(row=13, column=0)
-        self.complemento = Entry(self.frame, width=32, bd=2)
-        self.complemento.grid(row=13, column=2)
+        Label(self.frame, text='Complemento:').grid(row=11, column=2)
+        self.complemento = Entry(self.frame, width=22, bd=2)
+        self.complemento.grid(row=11, column=3)
 
         #Label de exibição das mensagens de erros referentes ao campo "Complemento"
         self.erroComplemento = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.erroComplemento.grid(row=14, column=2)
+        self.erroComplemento.grid(row=12, column=3)
 
         Label(self.frame, text='Cidade:').grid(row=15, column=0)
-        self.cidade = Entry(self.frame, width=32, bd=2)
-        self.cidade.grid(row=15, column=2)
+        self.cidade = Entry(self.frame, width=22, bd=2)
+        self.cidade.grid(row=15, column=1)
 
         #Label de exibição das mensagens de erros referentes ao campo "Cidade"
         self.erroCidade = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.erroCidade.grid(row=16, column=2)
+        self.erroCidade.grid(row=16, column=1)
 
         #ComboBox com os estados do Brasil
         Label(self.frame, text='Estado:').grid(row=17, column=0)
         self.estado = ttk.Combobox(self.frame, width=29, state="readonly")
         self.estado['values'] = (self.estados)
-        self.estado.grid(row=17, column=2)
+        self.estado.grid(row=17, column=1)
 
         #Label de exibição das mensagens de erros relacionadas as regras de negócio
         self.texto = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.texto.grid(row=20, column=2)
+        self.texto.grid(row=21, column=1)
 
         #Label necessário para manter o espaçamento do botão cadastrar do comboBox
         self.ajuste = Label(self.frame)
         self.ajuste.grid(row=18, column=2)
 
-        self.btnAdd = ttk.Button(self.frame, text='CADASTRAR', command=self.verificarTipoPessoa).grid(row=19, column=2)
+        self.btnAdd = ttk.Button(self.frame, text='CADASTRAR', command=self.verificarTipoPessoa).grid(row=19, column=1)
 
         #Populando árvore
         self.popular_arvore()
 
         #Cria scrollbar_vertical de rolagem
         self.scrollbar_vertical = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
+        self.scrollbar_horizontal = Scrollbar(self.master, orient='horizontal', command=self.tree.xview)
 
         #Adiciona scrollbar_vertical de rolagem
-        self.scrollbar_vertical.place(x=390, y=394, height=218 + 10)
+        self.scrollbar_vertical.place(x=698, y=377, height=218 + 10)
+        self.scrollbar_horizontal.place(x=0, y=600, width=698)
 
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
+        self.tree.configure(xscroll=self.scrollbar_horizontal.set)
 
         #Botões de interação
-        self.btnApagar = ttk.Button(text='Deletar cliente', command=self.removerCliente)
-        self.btnApagar.grid(row=4, column=3, sticky=N)
-        self.btnAtualizar = ttk.Button(text='Atualizar cliente')
-        self.btnAtualizar.grid(row=4, column=3, sticky=S, padx=10, pady=10)
+        self.btnApagar = ttk.Button(text='DELETAR', command=self.removerCliente)
+        self.btnApagar.grid(row=4, column=4, padx=20)
+        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
+        self.btnAtualizar.grid(row=20, column=1, padx=10, pady=10)
 
     def montarEndereco(self):
         return self.rua.get().strip() + ", " + self.complemento.get().strip() + ". " + self.cidade.get().strip() + ", " + self.estado.get() + "."
 
+    def retornarDadosEntrys(self):
+        return (self.codigo.get().strip(), ''.join(re.findall('\d', self.telefone.get().strip())), self.montarEndereco(),
+                                        ''.join(re.findall('\d', self.cpfCnpj.get().strip())), self.nomeRazaoSocial.get().strip())
+
     #Método para validação dos campos
     def validarCampos(self):
         self.limparLabels()
-        codigo, telefone, endereco, cpfCnpj, nomeRazaoSocial = self.codigo.get().strip(), self.telefone.get().strip(), self.montarEndereco(), \
-                                                               ''.join(re.findall('\d', str(self.cpfCnpj.get().strip()))), self.nomeRazaoSocial.get().strip()
+        dados = self.retornarDadosEntrys()
+        codigo, telefone, endereco, cpfCnpj, nomeRazaoSocial = dados[0], dados[1], dados[2], dados[3], dados[4]
         verificador = True
         if codigo == "":
             self.erroCodigo.grid()
@@ -143,6 +150,10 @@ class Application:
         if cpfCnpj == "":
             self.erroCpfCnpj.grid()
             self.erroCpfCnpj["text"] = "*Campo CPF/CNPJ não deve ficar vazio"
+            verificador = False
+        elif not cpfCnpj.isdigit():
+            self.erroCpfCnpj.grid()
+            self.erroCpfCnpj["text"] = "*Campo CPF/CNPJ só deve conter números"
             verificador = False
         elif len(cpfCnpj) != 11 and len(cpfCnpj) != 14:
             self.erroCpfCnpj.grid()
@@ -166,9 +177,8 @@ class Application:
 
     #Método de validação do cadastro (regras de negócio)
     def validarCadastroCliente(self, verificador):
-        booleano = True
         self.limparLabels()
-        print(verificador)
+        booleano = True
         if verificador != None:
             if verificador.args[0] == 1062:
                 self.texto.grid()
@@ -179,10 +189,10 @@ class Application:
                     self.erroTelefone.grid()
                     self.erroTelefone["text"] = "Telefone: máximo de 20 caracteres"
                     booleano = False
-                else:
-                    self.erroCodigo.grid()
-                    self.erroCodigo["text"] = "Código: máximo de 11 caracteres"
-                    booleano = False
+            elif verificador.args[0] == 1264:
+                self.erroCodigo.grid()
+                self.erroCodigo["text"] = "*Valor máximo excedido do código do cliente (máximo: 11 caracteres)"
+                booleano = False
         return booleano
 
     def validarCadastroPessoa(self, verificador):
@@ -197,8 +207,9 @@ class Application:
 
     def verificarTipoPessoa(self):
         if self.validarCampos():
-            cliente = Cliente(self.codigo.get().strip(), self.telefone.get().strip(), self.montarEndereco())
-            cpfCnpj = ''.join(re.findall('\d', str(self.cpfCnpj.get().strip())))
+            dados = self.retornarDadosEntrys()
+            cliente = Cliente(dados[0], str(dados[1]), dados[2])
+            cpfCnpj = dados[3]
             if self.inserirCliente(cliente):
                 if len(self.cpfCnpj.get().strip()) == 11:#isPessoaFísica
                     self.inserirPessoaFisica(PessoaFisica(cliente.getCodigo(), cpfCnpj, self.nomeRazaoSocial.get().strip()))
@@ -214,7 +225,6 @@ class Application:
     #Inserindo pessoa física no banco
     def inserirPessoaFisica(self, pessoaFisica):
         verificador = pessoaFisicaServices.inserirPessoaFisica(pessoaFisica)
-        print(verificador)
         if self.validarCadastroPessoa(verificador):
             self.texto.grid()
             self.texto["text"] = "Cliente cadastrado com sucesso"
@@ -232,36 +242,36 @@ class Application:
     def removerCliente(self):
         self.limparLabels()
         cliente = self.selecionarItem()
-        verificador = clienteServices.removerCliente(cliente)
-        if verificador == None:
-            self.texto["text"] = "Cliente excluído com sucesso"
-            self.listarClientes()
-        else:
-            self.texto["text"] = verificador
+        if cliente != None:
+            verificador = clienteServices.removerCliente(cliente)
+            if verificador == None:
+                self.texto["text"] = "Cliente excluído com sucesso"
+                self.listarClientes()
+            else:
+                self.texto["text"] = "Error: %s" %verificador.args[1]
 
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
-        self.tree = ttk.Treeview(self.master,height=10, columns=2, selectmode='browse')
+        self.tree = ttk.Treeview(self.master, height=10, columns=2, selectmode='browse')
         #self.tree.bind('<ButtonRelease-1>', self.selecionarItem)
-        self.tree.grid(row=4, column=0, columnspan=3)
+        self.tree.grid(row=4, column=0, columnspan=3, pady=20, sticky="WE")
         self.tree["columns"] = ("codigo_cliente", "descricao", "endereco")
         self.tree.heading("#0", text="first", anchor="w")
         self.tree.column("#0", stretch=NO, width=0, anchor="w")
         self.tree.heading("codigo_cliente", text="Código")
-        self.tree.column("codigo_cliente", anchor="center", width=100)
+        self.tree.column("codigo_cliente", anchor="center", width=100, minwidth=150, stretch=True)
         self.tree.heading("descricao", text="Telefone")
-        self.tree.column("descricao", anchor="center", width=100)
+        self.tree.column("descricao", anchor="center", width=100, minwidth=150, stretch=True)
         self.tree.heading("endereco", text="Endereço")
-        self.tree.column("endereco", anchor="center", width=200)
+        self.tree.column("endereco", anchor="center", width=500, minwidth=550, stretch=True)
         self.listarClientes()
 
     #Recuperando elemento selecionado na árvore
     def selecionarItem(self):
         itemSelecionado = self.tree.focus()
-        codigo, telefone, endereco = str(self.tree.item(itemSelecionado)['values'][0]), self.tree.item(itemSelecionado)['values'][1], self.tree.item(itemSelecionado)['values'][2]
-
-        return Cliente(codigo, telefone, endereco)
-
+        if itemSelecionado != "":
+            codigo, telefone, endereco = str(self.tree.item(itemSelecionado)['values'][0]), self.tree.item(itemSelecionado)['values'][1], self.tree.item(itemSelecionado)['values'][2]
+            return Cliente(codigo, telefone, endereco)
     #Selecionando todos os dados da tabela cliente e inserindo no TreeView
     def listarClientes(self):
         self.tree.delete(*self.tree.get_children())#Removendo todos os nodos da árvore

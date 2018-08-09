@@ -1,4 +1,5 @@
 from infraestrutura.banco.BancoDados import Banco
+from pymysql import MySQLError
 
 class ClienteServices:
 
@@ -7,22 +8,21 @@ class ClienteServices:
 
     def inserirCliente(self, cliente):
         try:
-            if cliente.getEndereco() == ", . , .":
-                atributos = "('" + cliente.getCodigo() + "'" + "," + "'" + cliente.getTelefone() + "'" + "," + " null)"
-            else:
-                atributos = "('" + cliente.getCodigo() + "'" + "," + "'" + cliente.getTelefone() + "'" + "," + "'" + cliente.getEndereco() + "'" + ")"
-            self.connection.insert("INSERT INTO cliente VALUES " + atributos)
-        except Exception as e:
+            endereco = cliente.getEndereco()
+            if endereco == ", . , .":
+                endereco = "null"
+            self.connection.insert(("INSERT INTO cliente VALUES (%s,%s,'" + endereco + "'" + ")") %(cliente.getCodigo(), cliente.getTelefone()))
+        except MySQLError as e:
             return e
 
     def removerCliente(self, cliente):
         try:
-            self.connection.delete("DELETE FROM cliente WHERE codigo_cliente = " + cliente.getCodigo())
-        except Exception as e:
+            self.connection.delete("DELETE FROM cliente WHERE codigo = " + cliente.getCodigo())
+        except MySQLError as e:
             return e
 
     def listarClientes(self, query):
         try:
             return self.connection.selecionarTodos(query)
-        except Exception as e:
+        except MySQLError as e:
             return e
