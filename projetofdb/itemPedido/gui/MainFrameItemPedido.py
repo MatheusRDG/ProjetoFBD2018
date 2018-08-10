@@ -49,7 +49,7 @@ class Application:
         # Botões de interação
         self.btnApagar = ttk.Button(text='DELETAR', command=self.removerItemPedido)
         self.btnApagar.grid(row=4, column=3, padx=10)
-        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
+        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarItemPedido)
         self.btnAtualizar.grid(row=10, column=2, pady=10)
 
         #Populando árvore
@@ -63,38 +63,41 @@ class Application:
 
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
-    def retornarDadosEntry(self):
-        return (self.codigoServico.get().strip(), self.numeroPedido.get().strip(), self.metragem.get().strip())
-
     #Método para validação dos campos
     def validarCampos(self):
         self.limparLabels()
-        dados = self.retornarDadosEntry()
-        codigo_servico, numero_pedido, metragem = dados[0],dados[1],dados[2]
+        itemPedido = self.criarItemPedido()
         verificador = True
-        if codigo_servico == "":
-            self.erroCodigoServico.grid()
-            self.erroCodigoServico["text"] = "*Campo código do serviço não pode ficar vazio"
-            verificador = False
-        elif not codigo_servico.isdigit():
-            self.erroCodigoServico.grid()
-            self.erroCodigoServico["text"] = "*Campo código só deve conter números"
-            verificador = False
-        if numero_pedido == "":
-            self.erroNumeroPedido.grid()
-            self.erroNumeroPedido["text"] = "*Campo número do pedido não pode ficar vazio"
-            verificador = False
-        elif not numero_pedido.isdigit():
-            self.erroNumeroPedido.grid()
-            self.erroNumeroPedido["text"] = "*Campo número só deve conter números"
-            verificador = False
-        if metragem == "":
-            self.erroMetragem.grid()
-            self.erroMetragem["text"] = "*Campo metragem não pode ficar vazio"
-            verificador = False
-        elif not metragem.isdigit():
-            self.erroMetragem.grid()
-            self.erroMetragem["text"] = "*Campo metragem só deve conter números"
+        try:
+            if itemPedido.getCodigoServico() == "":
+                self.erroCodigoServico.grid()
+                self.erroCodigoServico["text"] = "*Campo código do serviço não pode ficar vazio"
+                verificador = False
+            elif not itemPedido.getCodigoServico().isdigit():
+                self.erroCodigoServico.grid()
+                self.erroCodigoServico["text"] = "*Campo código só deve conter números"
+                verificador = False
+            if itemPedido.getNumeroPedido() == "":
+                self.erroNumeroPedido.grid()
+                self.erroNumeroPedido["text"] = "*Campo número do pedido não pode ficar vazio"
+                verificador = False
+            elif not itemPedido.getNumeroPedido().isdigit():
+                self.erroNumeroPedido.grid()
+                self.erroNumeroPedido["text"] = "*Campo número só deve conter números"
+                verificador = False
+            if itemPedido.getMetragem() == "":
+                self.erroMetragem.grid()
+                self.erroMetragem["text"] = "*Campo metragem não pode ficar vazio"
+                verificador = False
+            if float(itemPedido.getMetragem()):
+                pass
+            elif not itemPedido.getMetragem().isdigit():
+                self.erroMetragem.grid()
+                self.erroMetragem["text"] = "*Campo metragem só deve conter números"
+                verificador = False
+        except ValueError:
+            self.texto.grid()
+            self.texto["text"] = "*Todos os campos só devem conter números"
             verificador = False
         return verificador
 
@@ -116,10 +119,10 @@ class Application:
                     self.erroMetragem.grid()
                     self.erroMetragem["text"] = "*Valor máximo excedido (máximo: 11 caracteres)"
                     booleano = False
-            elif verificador.args[0] == 1406:
-                self.erroNumeroPedido.grid()
-                self.erroNumeroPedido["text"] = "*Valor máximo excedido (máximo: 11 caracteres)"
-                booleano = False
+                if "numero_pedido" in verificador.args[1]:
+                    self.erroNumeroPedido.grid()
+                    self.erroNumeroPedido["text"] = "*Valor máximo excedido (máximo: 11 caracteres)"
+                    booleano = False
             elif verificador.args[0] == 1452:
                 if "codigo_servico" in verificador.args[1]:
                     self.erroCodigoServico.grid()
@@ -134,7 +137,7 @@ class Application:
     #Método de inserção do cliente no banco de dados
     def inserirItemPedido(self):
         if self.validarCampos():
-            dados = self.retornarDadosEntry()
+            dados = self.criarItemPedido()
             verificador = itemPedidoServices.inserirItemPedido(ItemPedido(dados[0], dados[1], dados[2]))
             if self.validarCadastroItemPedido(verificador):
                 self.texto.grid()
@@ -154,11 +157,31 @@ class Application:
             else:
                 self.texto["text"] = verificador
 
+    #Método que atualiza o cliente cadastrado no banco de dados
+    def atualizarItemPedido(self):
+        self.limparLabels()
+        itemPedidoAntigo = self.selecionarItem()
+        if itemPedidoAntigo != None:
+            if self.validarCampos():
+                verificador = itemPedidoServices.atualizarItemPedido(itemPedidoAntigo, self.criarItemPedido())
+                if self.validarCadastroItemPedido(verificador):
+                    self.texto.grid()
+                    self.texto["text"] = "Item pedido atualizado com sucesso"
+                    self.limparEntry()
+                    self.listarItens()
+
+    #Método que retorna um objeto item de pedido
+    def criarItemPedido(self):
+        codigo_servico, numero_pedido, metragem = self.codigoServico.get().strip(), self.numeroPedido.get().strip(), \
+                                                  self.metragem.get().strip().replace(",", ".")
+        return ItemPedido(codigo_servico, numero_pedido, metragem)
+
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
             self.tree = ttk.Treeview(self.master, height=10, columns=2, selectmode='browse')
             self.tree.grid(row=4, column=0, columnspan=3, pady=10, padx=10)
             self.tree["columns"] = ("codigo_servico", "numero_pedido", "metragem")
+            self.tree.bind("<Double-1>", self.preencheCampoClick)
             self.tree.heading("#0", text="first", anchor="w")
             self.tree.column("#0", stretch=NO, width=0, anchor="w")
             self.tree.heading("codigo_servico", text="Código serviço")
@@ -168,6 +191,17 @@ class Application:
             self.tree.heading("metragem", text="Metragem")
             self.tree.column("metragem", anchor="center", width=120)
             self.listarItens()
+
+    #Preenchendo campos para atualização
+    def preencheCampoClick(self, event):
+        if self.tree.focus() != "":
+            self.limparEntry()
+            self.limparLabels()
+            self.texto["text"] = "*Só é permitido atualizar o campo metragem"
+            itemPedido = self.selecionarItem()
+            self.codigoServico.insert(0, itemPedido.getCodigoServico())
+            self.numeroPedido.insert(0, itemPedido.getNumeroPedido())
+            self.metragem.insert(0, itemPedido.getMetragem())
 
     #Recuperando elemento selecionado na árvore
     def selecionarItem(self):

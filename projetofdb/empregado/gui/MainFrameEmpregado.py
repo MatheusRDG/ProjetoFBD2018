@@ -145,9 +145,9 @@ class Application:
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
         self.tree = ttk.Treeview(self.master,height=10, columns=2, selectmode='browse')
-        self.tree.bind('<Double-1>', self.preencheCampoClick)
         self.tree.grid(row=4, column=0, columnspan=2, pady=20, padx=20)
         self.tree["columns"] = ("matricula", "codigo")
+        self.tree.bind('<Double-1>', self.preencheCampoClick)
         self.tree.heading("#0", text="first", anchor="w")
         self.tree.column("#0", stretch=NO, width=0, anchor="w")
         self.tree.heading("matricula", text="Matrícula")
@@ -161,6 +161,7 @@ class Application:
         if self.tree.focus() != "":
             self.limparEntry()
             self.limparLabels()
+            self.texto["text"] = "*Só é permitido atualizar o campo nome"
             empregado = self.selecionarItem()
             self.matricula.insert(0, empregado.getMatricula())
             self.nome.insert(0, empregado.getNome())

@@ -76,43 +76,48 @@ class Application:
         #Botões de interação
         self.btnApagar = ttk.Button(text='DELETAR', command=self.removerPedido)
         self.btnApagar.grid(row=4, column=5)
-        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
+        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarPedido)
         self.btnAtualizar.grid(row=14, column=2, padx=10, pady=5)
 
-    # Método para validação dos campos
+    #Método que retorna os dados dos campos
+    def criarPedido(self):
+        numero, codigo_cliente, data_abertura, local, data_realizacao = self.numero.get().strip(), self.codigoCliente.get().strip(), self.dataAbertura.get().strip(), self.local.get().strip(),self.dataRealizacao.get().strip()
+        pedido = Pedido(numero, codigo_cliente, data_abertura, local, data_realizacao)
+        return pedido
+
+    #Método para validação dos campos
     def validarCampos(self):
             self.limparLabels()
-            numero, codigo_cliente, data_abertura, local, dataRealizacao = self.numero.get().strip(), self.codigoCliente.get().strip(), self.dataAbertura.get().strip(), self.local.get().strip(),self.dataRealizacao.get().strip()
+            pedido = self.criarPedido()
             verificador = True
-            if numero == "":
+            if pedido.getNumero() == "":
                 self.erroNumero.grid()
                 self.erroNumero["text"] = "*Campo número não pode ficar vazio"
                 verificador = False
-            elif not numero.isdigit():
+            elif not pedido.getNumero().isdigit():
                 self.erroNumero.grid()
                 self.erroNumero["text"] = "*Campo número só deve conter números"
                 verificador = False
-            if codigo_cliente == "":
+            if pedido.getCodigoCliente() == "":
                 self.erroCodigoCliente.grid()
                 self.erroCodigoCliente["text"] = "*Campo código do cliente não pode ficar vazio"
                 verificador = False
-            elif not codigo_cliente.isdigit():
+            elif not pedido.getCodigoCliente().isdigit() and pedido.getCodigoCliente() != "None":
                 self.erroCodigoCliente.grid()
                 self.erroCodigoCliente["text"] = "*Campo código do cliente só deve conter números"
                 verificador = False
-            if data_abertura == "":
+            if pedido.getDataAbertura() == "":
                 self.erroDataAbertura.grid()
                 self.erroDataAbertura["text"] = "*Campo data de abertura não deve ficar vazio"
                 verificador = False
-            if local == "":
+            if pedido.getLocal() == "":
                 self.erroLocal.grid()
                 self.erroLocal["text"] = "*Campo local não deve ficar vazio"
                 verificador = False
-            if dataRealizacao == "":
+            if pedido.getDataRealizacao() == "":
                 self.erroDataRealizacao.grid()
                 self.erroDataRealizacao["text"] = "*Campo data realização não deve ficar vazio"
                 verificador = False
-
             return verificador
 
     def inserirPedido(self):
@@ -135,6 +140,33 @@ class Application:
                 self.listarPedidos()
             else:
                 self.texto["text"] = verificador
+
+    #Método que atualiza o cliente cadastrado no banco de dados
+    def atualizarPedido(self):
+        self.limparLabels()
+        pedidoAntigo = self.selecionarItem()
+        if pedidoAntigo != None:
+            if self.validarCampos():
+                pedidoAtual = self.criarPedido()
+                verificador = pedidoServices.atualizarPedido(pedidoAntigo.getNumero(), pedidoAtual)
+                if self.validarCadastro(verificador):
+                    self.texto.grid()
+                    self.texto["text"] = "Pedido atualizado com sucesso"
+                    self.limparEntry()
+                    self.listarPedidos()
+
+    #Preenchendo campos para atualização
+    def preencheCampoClick(self, event):
+        if self.tree.focus() != "":
+            self.limparEntry()
+            self.limparLabels()
+            self.texto["text"] = "*Atualize todos os campos exceto o número"
+            pedido = self.selecionarItem()
+            self.numero.insert(0, pedido.getNumero())
+            self.codigoCliente.insert(0, pedido.getCodigoCliente())
+            self.dataAbertura.insert(0, pedido.getDataAbertura())
+            self.local.insert(0, pedido.getLocal())
+            self.dataRealizacao.insert(0, pedido.getDataRealizacao())
 
     #Recuperando elemento selecionado na árvore
     def selecionarItem(self):
@@ -190,6 +222,7 @@ class Application:
             self.tree = ttk.Treeview(self.master, height=10, columns=2, selectmode='browse')
             self.tree.grid(row=4, column=0, columnspan=5, pady=10, padx=10)
             self.tree["columns"] = ("numero", "codigo_cliente", "data_abertura", "local", "data_realizacao")
+            self.tree.bind('<Double-1>', self.preencheCampoClick)
             self.tree.heading("#0", text="first", anchor="w")
             self.tree.column("#0", stretch=NO, width=0, anchor="w")
             self.tree.heading("numero", text="Número")

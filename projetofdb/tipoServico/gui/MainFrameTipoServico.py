@@ -88,69 +88,35 @@ class Application:
         self.tree.column("valor_m2", anchor="center", width=80)
         self.listarTiposServicos()
 
-    #Retornando valores digitados nos campos
-    def retornarDadosCampo(self):
-        return (self.codigo.get().strip(), self.descricao.get().strip(), self.duracao_m2.get().strip().replace(",", "."), self.valor_m2.get().strip().replace(",", "."))
-
     #Método para validação dos campos
     def validarCampos(self):
         self.limparLabels()
         verificador = True
         try:
-            dados = self.retornarDadosCampo()
-            codigo, descricao, duracao_m2, valor_m2 = dados[0], dados[1], dados[2], dados[3]
-            if codigo == "":
+            tipoServico = self.criarTipoServico()
+            if tipoServico.getCodigo() == "":
                 self.erroCodigo.grid()
                 self.erroCodigo["text"] = "*Campo código não pode ficar vazio"
                 verificador = False
-            elif not codigo.isdigit():
+            elif not tipoServico.getCodigo().isdigit():
                 self.erroCodigo.grid()
                 self.erroCodigo["text"] = "*Campo código só deve conter números"
                 verificador = False
-            if descricao == "":
+            if tipoServico.getDescricao() == "":
                 self.erroDescricao.grid()
                 self.erroDescricao["text"] = "*Campo descrição não pode ficar vazio"
                 verificador = False
-            if duracao_m2 == "":
+            if tipoServico.getDuracaoM2() == "":
                 self.erroDuracaoM2.grid()
                 self.erroDuracaoM2["text"] = "*Campo duração(m2) não deve ficar vazio"
                 verificador = False
-            elif float(duracao_m2):
+            elif float(tipoServico.getDuracaoM2()):
                 pass
-            if valor_m2 == "":
+            if tipoServico.getValorM2() == "":
                 self.erroValorM2.grid()
                 self.erroValorM2["text"] = "*Campo valor por m2 não deve ficar vazio"
                 verificador = False
-            elif float(valor_m2):
-                pass
-        except ValueError:
-            self.texto.grid()
-            self.texto["text"] = "*Campo duração e valor só devem números"
-            verificador = False
-        return verificador
-
-    #Método para validação dos campos
-    def validarAtualizacao(self):
-        self.limparLabels()
-        verificador = True
-        try:
-            dados = self.retornarDadosCampo()
-            descricao, duracao_m2, valor_m2 = dados[1], dados[2], dados[3]
-            if descricao == "":
-                self.erroDescricao.grid()
-                self.erroDescricao["text"] = "*Campo descrição não pode ficar vazio"
-                verificador = False
-            if duracao_m2 == "":
-                self.erroDuracaoM2.grid()
-                self.erroDuracaoM2["text"] = "*Campo duração(m2) não deve ficar vazio"
-                verificador = False
-            elif float(duracao_m2):
-                pass
-            if valor_m2 == "":
-                self.erroValorM2.grid()
-                self.erroValorM2["text"] = "*Campo valor por m2 não deve ficar vazio"
-                verificador = False
-            elif float(valor_m2):
+            elif float(tipoServico.getValorM2()):
                 pass
         except ValueError:
             self.texto.grid()
@@ -161,9 +127,8 @@ class Application:
     #Método de inserção do tipo de serviço no banco de dados
     def inserirTipoServico(self):
         if self.validarCampos():
-            dados = self.retornarDadosCampo()
-            codigo, descricao, duracao_m2, valor_m2 = dados[0], dados[1], dados[2], dados[3]
-            verificador = tipoServicoServices.inserirTipoServico(TipoServico(codigo, descricao, duracao_m2, valor_m2))
+            tipoServico = self.criarTipoServico()
+            verificador = tipoServicoServices.inserirTipoServico(tipoServico)
             if self.validarCadastroTipoServico(verificador):
                 self.texto.grid()
                 self.texto["text"] = "Tipo de serviço cadastrado com sucesso"
@@ -185,9 +150,9 @@ class Application:
         self.limparLabels()
         tipoServicoAntigo = self.selecionarItem()
         if tipoServicoAntigo != None:
-            if self.validarAtualizacao():
-                tipoServicoAtual = self.retornarDadosCampo()
-                verificador = tipoServicoServices.atualizarTipoServico(tipoServicoAntigo.getCodigo(), TipoServico(tipoServicoAtual[0], tipoServicoAtual[1], tipoServicoAtual[2], tipoServicoAtual[3]))
+            if self.validarCampos():
+                tipoServicoAtual = self.criarTipoServico()
+                verificador = tipoServicoServices.atualizarTipoServico(tipoServicoAntigo.getCodigo(), tipoServicoAtual)
                 if self.validarCadastroTipoServico(verificador):
                     self.texto.grid()
                     self.texto["text"] = "Tipo de serviço atualizado com sucesso"
@@ -199,6 +164,7 @@ class Application:
         if self.tree.focus() != "":
             self.limparEntry()
             self.limparLabels()
+            self.texto["text"] = "*Atualize apenas os campos nome, descrição, duração e valor"
             tipoServico = self.selecionarItem()
             self.codigo.insert(0,tipoServico.getCodigo())
             self.descricao.insert(0,tipoServico.getDescricao())
@@ -242,6 +208,12 @@ class Application:
                                          self.tree.item(itemSelecionado)['values'][2], \
                                          self.tree.item(itemSelecionado)['values'][3]
             return TipoServico(codigo, descricao, duracao_m2, valor_m2)
+
+    #Retornando valores digitados nos campos
+    def criarTipoServico(self):
+        codigo, descricao, duracao_m2, valor_m2 = self.codigo.get().strip(), self.descricao.get().strip(), \
+                                                  self.duracao_m2.get().strip().replace(",", "."), self.valor_m2.get().strip().replace(",", ".")
+        return TipoServico(codigo, descricao, duracao_m2, valor_m2)
 
     #Selecionando todos os dados da tabela pessoa_fisica e inserindo no TreeView
     def listarTiposServicos(self):

@@ -19,6 +19,16 @@ class PedidoServices:
         except MySQLError as e:
             return e
 
+    def atualizarPedido(self, numero, pedido):
+        try:
+            if pedido.getCodigoCliente() == "None":
+                pedido.setCodigoCliente("null")
+            self.connection.update("UPDATE pedido SET codigo_cliente = %s, data_abertura = %s, local = %s, data_realizacao = %s WHERE numero = %s"
+                                   %(pedido.getCodigoCliente(),"'" + pedido.getDataAbertura() + "'","'" + pedido.getLocal() + "'",
+                                      "'" + pedido.getDataRealizacao() + "'", numero))
+        except MySQLError as e:
+            return e
+
     def listarPedidos(self, query):
         try:
             return self.connection.selecionarTodos(query)

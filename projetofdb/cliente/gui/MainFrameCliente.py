@@ -287,6 +287,8 @@ class Application:
     def preencheCampoClick(self, event):
         if self.tree.focus() != "":
             self.limparEntry()
+            self.limparLabels()
+            self.texto["text"] = "*Atualize todos os campos exceto o campo código"
             cliente = self.selecionarItem()
             self.codigo.insert (0,cliente.getCodigo())
             self.telefone.insert(0,cliente.getTelefone())
