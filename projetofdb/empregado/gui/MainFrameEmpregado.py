@@ -135,7 +135,7 @@ class Application:
         empragadoAntigo = self.selecionarItem()
         if empragadoAntigo != None:
             if self.validarAtualizacao():
-                verificador = empragadoServices.atualizarEmpregado(empragadoAntigo.getMatricula(), Empregado(None, self.nome.get().strip()))
+                verificador = empragadoServices.atualizarEmpregado(empragadoAntigo.getMatricula(), Empregado(self.matricula.get().strip(), self.nome.get().strip()))
                 if self.validarCadastro(verificador):
                     self.texto.grid()
                     self.texto["text"] = "*Empregado atualizado com sucesso"

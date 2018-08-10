@@ -132,6 +132,7 @@ class Application:
             if self.validarCadastroTipoServico(verificador):
                 self.texto.grid()
                 self.texto["text"] = "Tipo de serviço cadastrado com sucesso"
+                self.limparEntry()
                 self.listarTiposServicos()
 
     def removerTipoServico(self):

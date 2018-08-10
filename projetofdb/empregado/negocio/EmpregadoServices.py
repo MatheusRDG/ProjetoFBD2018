@@ -20,7 +20,7 @@ class EmpregadoServices:
 
     def atualizarEmpregado(self, matricula, empregado):
         try:
-            self.connection.update("UPDATE empregado SET nome = %s WHERE matricula = %s" % ("'" + empregado.getNome() + "'", matricula))
+            self.connection.update("UPDATE empregado SET matricula = %s, nome = %s WHERE matricula = %s" % (empregado.getMatricula(), "'" + empregado.getNome() + "'", matricula))
         except MySQLError as e:
             return e
 

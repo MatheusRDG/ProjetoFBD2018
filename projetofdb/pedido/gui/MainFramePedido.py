@@ -160,7 +160,7 @@ class Application:
         if self.tree.focus() != "":
             self.limparEntry()
             self.limparLabels()
-            self.texto["text"] = "*Atualize todos os campos exceto o número"
+            self.texto["text"] = "*Atualize todos os campos exceto o número do pedido"
             pedido = self.selecionarItem()
             self.numero.insert(0, pedido.getNumero())
             self.codigoCliente.insert(0, pedido.getCodigoCliente())
