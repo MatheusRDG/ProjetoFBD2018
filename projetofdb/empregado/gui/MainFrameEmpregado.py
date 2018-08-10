@@ -54,7 +54,7 @@ class Application:
         #Botões de interação
         self.btnApagar = ttk.Button(text='DELETAR', command=self.removerEmpregado)
         self.btnApagar.grid(row=4, column=3)
-        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
+        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarEmpregado)
         self.btnAtualizar.grid(row=8, column=2, pady=10)
 
     #Método para validação dos campos
@@ -72,9 +72,19 @@ class Application:
             verificador = False
         if nome == "":
             self.erroNome.grid()
-            self.erroNome["text"] = "*Campo codigo não pode ficar vazio"
+            self.erroNome["text"] = "*Campo nome não pode ficar vazio"
             verificador = False
+        return verificador
 
+    #Método atualização
+    def validarAtualizacao(self):
+        self.limparLabels()
+        nome = self.nome.get().strip()
+        verificador = True
+        if nome == "":
+            self.erroNome.grid()
+            self.erroNome["text"] = "*Campo nome não pode ficar vazio"
+            verificador = False
         return verificador
 
     #Método de validação do cadastro (regras de negócio)
@@ -91,12 +101,11 @@ class Application:
                     self.erroNome.grid()
                     self.erroNome["text"] = "*Nome: máximo de 100 caracteres"
                     booleano = False
-                else:
+                if "matricula" in verificador.args[1]:
                     self.erroMatricula.grid()
                     self.erroMatricula["text"] = "*Valor máximo excedido (máximo: 11 caracteres)"
                     booleano = False
         return booleano
-
 
     #Método de inserção do empregado no banco de dados
     def inserirEmpregado(self):
@@ -105,6 +114,7 @@ class Application:
             if self.validarCadastro(verificador):
                 self.texto.grid()
                 self.texto["text"] = "Empregado cadastrado com sucesso"
+                self.limparEntry()
                 self.listarEmpregados()
 
     #Método que remove empregado do banco de dados
@@ -119,10 +129,23 @@ class Application:
             else:
                 self.texto["text"] = verificador
 
+    #Método que atualiza empregado
+    def atualizarEmpregado(self):
+        self.limparLabels()
+        empragadoAntigo = self.selecionarItem()
+        if empragadoAntigo != None:
+            if self.validarAtualizacao():
+                verificador = empragadoServices.atualizarEmpregado(empragadoAntigo.getMatricula(), Empregado(None, self.nome.get().strip()))
+                if self.validarCadastro(verificador):
+                    self.texto.grid()
+                    self.texto["text"] = "*Empregado atualizado com sucesso"
+                    self.limparEntry()
+                    self.listarEmpregados()
+
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
         self.tree = ttk.Treeview(self.master,height=10, columns=2, selectmode='browse')
-        #self.tree.bind('<ButtonRelease-1>', self.selecionarItem)
+        self.tree.bind('<Double-1>', self.preencheCampoClick)
         self.tree.grid(row=4, column=0, columnspan=2, pady=20, padx=20)
         self.tree["columns"] = ("matricula", "codigo")
         self.tree.heading("#0", text="first", anchor="w")
@@ -132,6 +155,15 @@ class Application:
         self.tree.heading("codigo", text="Nome")
         self.tree.column("codigo", anchor="center", width=190)
         self.listarEmpregados()
+
+    #Preenchendo campos para atualização
+    def preencheCampoClick(self, event):
+        if self.tree.focus() != "":
+            self.limparEntry()
+            self.limparLabels()
+            empregado = self.selecionarItem()
+            self.matricula.insert(0, empregado.getMatricula())
+            self.nome.insert(0, empregado.getNome())
 
     #Recuperando elemento selecionado na árvore
     def selecionarItem(self):
@@ -155,6 +187,11 @@ class Application:
         self.erroMatricula["text"] = ""
         self.erroNome["text"] = ""
         self.texto["text"] = ""
+
+    #Limapando Entrys após modificações no banco
+    def limparEntry(self):
+        self.matricula.delete(0, 'end')
+        self.nome.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
 if __name__ == '__main__':

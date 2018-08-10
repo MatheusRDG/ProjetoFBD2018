@@ -8,16 +8,21 @@ class ClienteServices:
 
     def inserirCliente(self, cliente):
         try:
-            endereco = cliente.getEndereco()
-            if endereco == ", . , .":
-                endereco = "null"
-            self.connection.insert(("INSERT INTO cliente VALUES (%s,%s,'" + endereco + "'" + ")") %(cliente.getCodigo(), cliente.getTelefone()))
+            self.connection.insert(("INSERT INTO cliente VALUES (%s,%s,'" + cliente.getEndereco() + "'" + ")") %(cliente.getCodigo(), cliente.getTelefone()))
         except MySQLError as e:
+            print(e)
             return e
 
     def removerCliente(self, cliente):
         try:
             self.connection.delete("DELETE FROM cliente WHERE codigo = " + cliente.getCodigo())
+        except MySQLError as e:
+            return e
+
+    def atualizarCliente(self, codigo, cliente):
+        try:
+            self.connection.update("UPDATE cliente SET telefone = %s, endereco = %s WHERE codigo = %s"
+                                   % ("'" + cliente.getTelefone() + "'", "'" + cliente.getEndereco() + "'", codigo))
         except MySQLError as e:
             return e
 

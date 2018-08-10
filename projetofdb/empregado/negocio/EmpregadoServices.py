@@ -18,6 +18,12 @@ class EmpregadoServices:
         except MySQLError as e:
             return e
 
+    def atualizarEmpregado(self, matricula, empregado):
+        try:
+            self.connection.update("UPDATE empregado SET nome = %s WHERE matricula = %s" % ("'" + empregado.getNome() + "'", matricula))
+        except MySQLError as e:
+            return e
+
     def listarEmpregados(self, query):
         try:
             return self.connection.selecionarTodos(query)

@@ -139,6 +139,7 @@ class Application:
             if self.validarCadastroItemPedido(verificador):
                 self.texto.grid()
                 self.texto["text"] = "Item de pedido cadastrado com sucesso"
+                self.limparEntry()
                 self.listarItens()
 
     #Método que remove cliente do banco de dados
@@ -193,6 +194,12 @@ class Application:
         self.erroNumeroPedido["text"] = ""
         self.erroMetragem["text"] = ""
         self.texto["text"] = ""
+
+    #Limapando Entrys após modificações no banco
+    def limparEntry(self):
+        self.codigoServico.delete(0, 'end')
+        self.numeroPedido.delete(0, 'end')
+        self.metragem.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
 if __name__ == '__main__':

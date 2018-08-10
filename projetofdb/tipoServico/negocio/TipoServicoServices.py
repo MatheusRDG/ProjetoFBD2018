@@ -18,6 +18,13 @@ class TipoServicoServices:
         except MySQLError as e:
             return e
 
+    def atualizarTipoServico(self, codigo, tipoServicoAtual):
+        try:
+            self.connection.update("UPDATE tipo_servico SET descricao = %s, duracao_m2 = %s, valor_m2 = %s WHERE codigo = %s"
+                                   %("'"+tipoServicoAtual.getDescricao()+"'", tipoServicoAtual.getDuracaoM2(), tipoServicoAtual.getValorM2(),codigo))
+        except MySQLError as e:
+            return e
+
     def listarTipos(self, query):
         try:
             return self.connection.selecionarTodos(query)

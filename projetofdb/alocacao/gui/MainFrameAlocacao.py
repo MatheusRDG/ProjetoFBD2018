@@ -150,7 +150,7 @@ class Application:
             self.tree.column("numero_pedido", anchor="center", width=150)
             self.listarAlocacoes()
 
-    #Método de inserção do cliente no banco de dados
+    #Método de inserção do alocação no banco de dados
     def inserirAlocacao(self):
         if self.validarCampos():
             dados = self.retornarDadosEntry()
@@ -158,9 +158,10 @@ class Application:
             if self.validarCadastroAlocacao(verificador):
                 self.texto.grid()
                 self.texto["text"] = "Item de pedido cadastrado com sucesso"
+                self.limparEntry()
                 self.listarAlocacoes()
 
-    #Método que remove cliente do banco de dados
+    #Método que remove alocação do banco de dados
     def removerAlocacao(self):
         self.limparLabels()
         alocacao = self.selecionarAlocacao()
@@ -198,6 +199,12 @@ class Application:
         self.erroMatriculaEmpregado["text"] = ""
         self.erroNumeroPedido["text"] = ""
         self.texto["text"] = ""
+
+    #Limapando Entrys após modificações no banco
+    def limparEntry(self):
+        self.codigoServico.delete(0, 'end')
+        self.matriculaEmpregado.delete(0, 'end')
+        self.numeroPedido.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
 if __name__ == '__main__':

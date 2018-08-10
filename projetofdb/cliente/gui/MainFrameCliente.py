@@ -119,15 +119,8 @@ class Application:
         #Botões de interação
         self.btnApagar = ttk.Button(text='DELETAR', command=self.removerCliente)
         self.btnApagar.grid(row=4, column=4, padx=20)
-        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
+        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarCliente)
         self.btnAtualizar.grid(row=20, column=1, padx=10, pady=10)
-
-    def montarEndereco(self):
-        return self.rua.get().strip() + ", " + self.complemento.get().strip() + ". " + self.cidade.get().strip() + ", " + self.estado.get() + "."
-
-    def retornarDadosEntrys(self):
-        return (self.codigo.get().strip(), ''.join(re.findall('\d', self.telefone.get().strip())), self.montarEndereco(),
-                                        ''.join(re.findall('\d', self.cpfCnpj.get().strip())), self.nomeRazaoSocial.get().strip())
 
     #Método para validação dos campos
     def validarCampos(self):
@@ -145,7 +138,7 @@ class Application:
             verificador = False
         if telefone == "":
             self.erroTelefone.grid()
-            self.erroTelefone["text"] = "*Campo descricao não pode ficar vazio"
+            self.erroTelefone["text"] = "*Campo telefone não pode ficar vazio"
             verificador = False
         if cpfCnpj == "":
             self.erroCpfCnpj.grid()
@@ -182,12 +175,16 @@ class Application:
         if verificador != None:
             if verificador.args[0] == 1062:
                 self.texto.grid()
-                self.texto["text"] = "Cliente já cadastrado no sistema"
+                self.texto["text"] = "*Cliente já cadastrado no sistema"
                 booleano = False
             elif verificador.args[0] == 1406:
                 if "telefone" in verificador.args[1]:
                     self.erroTelefone.grid()
-                    self.erroTelefone["text"] = "Telefone: máximo de 20 caracteres"
+                    self.erroTelefone["text"] = "*Telefone: máximo de 20 caracteres"
+                    booleano = False
+                if "endereco" in verificador.args[1]:
+                    self.texto.grid()
+                    self.texto['text'] = "*Reduza as informações do endereço (Máximo: 100 caracteres)"
                     booleano = False
             elif verificador.args[0] == 1264:
                 self.erroCodigo.grid()
@@ -195,6 +192,7 @@ class Application:
                 booleano = False
         return booleano
 
+    #Validando cadastro da pessoa física
     def validarCadastroPessoa(self, verificador):
         booleano = True
         self.limparLabels()
@@ -208,13 +206,14 @@ class Application:
     def verificarTipoPessoa(self):
         if self.validarCampos():
             dados = self.retornarDadosEntrys()
-            cliente = Cliente(dados[0], str(dados[1]), dados[2])
-            cpfCnpj = dados[3]
+            cliente, cpfCnpj = Cliente(dados[0], str(dados[1]), dados[2]), dados[3]
+            if cliente.getEndereco() == ", . , .":
+                cliente.setEndereco("null")
             if self.inserirCliente(cliente):
                 if len(self.cpfCnpj.get().strip()) == 11:#isPessoaFísica
-                    self.inserirPessoaFisica(PessoaFisica(cliente.getCodigo(), cpfCnpj, self.nomeRazaoSocial.get().strip()))
+                    self.inserirPessoaFisica(PessoaFisica(cliente.getCodigo(), cpfCnpj, self.nomeRazaoSocial.get().strip()), cliente)
                 else:
-                    self.inserirPessoaJuridica(PessoaJuridica(cliente.getCodigo(), cpfCnpj, self.nomeRazaoSocial.get().strip()))
+                    self.inserirPessoaJuridica(PessoaJuridica(cliente.getCodigo(), cpfCnpj, self.nomeRazaoSocial.get().strip()), cliente)
 
     #Método de inserção do cliente no banco de dados
     def inserirCliente(self, cliente):
@@ -223,20 +222,26 @@ class Application:
             return True
 
     #Inserindo pessoa física no banco
-    def inserirPessoaFisica(self, pessoaFisica):
+    def inserirPessoaFisica(self, pessoaFisica, cliente):
         verificador = pessoaFisicaServices.inserirPessoaFisica(pessoaFisica)
         if self.validarCadastroPessoa(verificador):
             self.texto.grid()
             self.texto["text"] = "Cliente cadastrado com sucesso"
+            self.limparEntry()
             self.listarClientes()
+        else:
+            clienteServices.removerCliente(cliente)
 
     #Inserindo pessoa jurídica no banco
-    def inserirPessoaJuridica(self, pessoaJuridica):
+    def inserirPessoaJuridica(self, pessoaJuridica, cliente):
         verificador = pessoaJuridicaServices.inserirPessoaJuridica(pessoaJuridica)
         if self.validarCadastroPessoa(verificador):
             self.texto.grid()
             self.texto["text"] = "Cliente cadastrado com sucesso"
+            self.limparEntry()
             self.listarClientes()
+        else:
+            clienteServices.removerCliente(cliente)
 
     #Método que remove cliente do banco de dados
     def removerCliente(self):
@@ -246,22 +251,66 @@ class Application:
             verificador = clienteServices.removerCliente(cliente)
             if verificador == None:
                 self.texto["text"] = "Cliente excluído com sucesso"
+                self.limparEntry()
                 self.listarClientes()
             else:
                 self.texto["text"] = "Error: %s" %verificador.args[1]
 
+    def validarCamposAtualizacao(self):
+        self.limparLabels()
+        telefone = self.telefone.get().strip()
+        verificador = True
+        if telefone == "":
+            self.erroTelefone.grid()
+            self.erroTelefone["text"] = "*Erro ao atualizar! Esse campo não pode ficar vazio"
+            verificador = False
+        return verificador
+
+    #Método que atualiza o cliente cadastrado no banco de dados
+    def atualizarCliente(self):
+        self.limparLabels()
+        clienteAntigo = self.selecionarItem()
+        if clienteAntigo != None:
+            if self.validarCamposAtualizacao():
+                cilenteAtual = self.retornarDadosEntrys()
+                clienteAtual = Cliente(cilenteAtual[0], cilenteAtual[1], cilenteAtual[2])
+                if clienteAtual.getEndereco() == ", . , .":
+                    clienteAtual.setEndereco("null")
+                verificador = clienteServices.atualizarCliente(clienteAntigo.getCodigo(), clienteAtual)
+                if self.validarCadastroCliente(verificador):
+                    self.texto.grid()
+                    self.texto["text"] = "Cliente atualizado com sucesso"
+                    self.limparEntry()
+                    self.listarClientes()
+
+    #Preenchendo campos quando for detectado o evento de double click em algum elemento da árvore
+    def preencheCampoClick(self, event):
+        if self.tree.focus() != "":
+            self.limparEntry()
+            cliente = self.selecionarItem()
+            self.codigo.insert (0,cliente.getCodigo())
+            self.telefone.insert(0,cliente.getTelefone())
+            if cliente.getEndereco() != "null":
+                lista = cliente.getEndereco().split(",")
+                self.rua.insert(0,lista[0])
+                self.complemento.insert(0,lista[1].split(".")[0])
+                self.cidade.insert(0,lista[1].split(".")[1])
+                #Setando o Estado
+                index = list(self.estados).index(lista[2].replace(".","").strip())
+                self.estado.set(self.estados[index])
+
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
         self.tree = ttk.Treeview(self.master, height=10, columns=2, selectmode='browse')
-        #self.tree.bind('<ButtonRelease-1>', self.selecionarItem)
+        self.tree.bind('<Double-1>', self.preencheCampoClick)
         self.tree.grid(row=4, column=0, columnspan=3, pady=20, sticky="WE")
-        self.tree["columns"] = ("codigo_cliente", "descricao", "endereco")
+        self.tree["columns"] = ("codigo", "telefone", "endereco")
         self.tree.heading("#0", text="first", anchor="w")
         self.tree.column("#0", stretch=NO, width=0, anchor="w")
-        self.tree.heading("codigo_cliente", text="Código")
-        self.tree.column("codigo_cliente", anchor="center", width=100, minwidth=150, stretch=True)
-        self.tree.heading("descricao", text="Telefone")
-        self.tree.column("descricao", anchor="center", width=100, minwidth=150, stretch=True)
+        self.tree.heading("codigo", text="Código")
+        self.tree.column("codigo", anchor="center", width=100, minwidth=150, stretch=True)
+        self.tree.heading("telefone", text="Telefone")
+        self.tree.column("telefone", anchor="center", width=100, minwidth=150, stretch=True)
         self.tree.heading("endereco", text="Endereço")
         self.tree.column("endereco", anchor="center", width=500, minwidth=550, stretch=True)
         self.listarClientes()
@@ -282,6 +331,15 @@ class Application:
         else:
             self.texto["text"] = self.clientes
 
+    #Montando string de endereço
+    def montarEndereco(self):
+        return self.rua.get().strip() + ", " + self.complemento.get().strip() + ". " + self.cidade.get().strip() + ", " + self.estado.get() + "."
+
+    #Retornando os dados digitados nos Entrys
+    def retornarDadosEntrys(self):
+        return (self.codigo.get().strip(), ''.join(re.findall('\d', self.telefone.get().strip())), self.montarEndereco(),
+                                        ''.join(re.findall('\d', self.cpfCnpj.get().strip())), self.nomeRazaoSocial.get().strip())
+
     #Limpando as labels para evitar mensagens de erros inconsistentes
     def limparLabels(self):
         self.erroCodigo["text"] = ""
@@ -292,6 +350,17 @@ class Application:
         self.erroComplemento["text"] = ""
         self.erroCidade["text"] = ""
         self.texto["text"] = ""
+
+    #Limapando Entrys após modificações no banco
+    def limparEntry(self):
+        self.codigo.delete(0, 'end')
+        self.telefone.delete(0, 'end')
+        self.rua.delete(0, 'end')
+        self.cpfCnpj.delete(0, 'end')
+        self.nomeRazaoSocial.delete(0, 'end')
+        self.complemento.delete(0, 'end')
+        self.cidade.delete(0, 'end')
+        self.estado.set('')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
 if __name__ == '__main__':

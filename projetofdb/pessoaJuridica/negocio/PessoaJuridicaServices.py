@@ -8,13 +8,14 @@ class PessoaJuridicaServices:
 
     def inserirPessoaJuridica(self, pessoaJuridica):
         try:
-            self.connection.insert("INSERT INTO pessoa_juridica VALUES (%s, %s, %s)" %(pessoaJuridica.getCodigoCliente(), pessoaJuridica.getCnpj(), pessoaJuridica.getRazaoSocial()))
+            self.connection.insert("INSERT INTO pessoa_juridica VALUES (%s, %s, %s)" %(pessoaJuridica.getCodigoCliente(), "'" + pessoaJuridica.getCnpj() + "'", "'" + pessoaJuridica.getRazaoSocial() + "'"))
         except MySQLError as e:
             return e
 
-    def removerPessoaJuridica(self, pessoaJuridica):
+    def atualizarPessoaJuridica(self, codigo, pessoaJuridica):
         try:
-            self.connection.delete("DELETE FROM pessoa_juridica WHERE codigo_cliente = " + pessoaJuridica.getCodigo())
+            self.connection.update("UPDATE pessoa_juridica SET razao_social = %s, cnpj = %s WHERE codigo_cliente = %s"
+                                   %("'"+ pessoaJuridica.getRazaoSocial()+"'","'" + pessoaJuridica.getCnpj() + "'",codigo))
         except MySQLError as e:
             return e
 

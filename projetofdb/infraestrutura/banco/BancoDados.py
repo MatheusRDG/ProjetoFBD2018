@@ -24,11 +24,8 @@ class Banco:
         self.CONNECTION.commit()
 
     def update(self,querySql):
-        try:
-            self.CURSOR.execute(querySql)
-            self.CONNECTION.commit()
-        except MySQLError as e:
-            print('Got error {!r}, errno is {}'.format(e, e.args[0]))
+        self.CURSOR.execute(querySql)
+        self.CONNECTION.commit()
 
     def selecionarTodos(self, querySql):
         lista = []

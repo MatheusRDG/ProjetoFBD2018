@@ -1,6 +1,8 @@
 from tkinter import*
 from tkinter import ttk
 from pessoaJuridica.negocio.PessoaJuridicaServices import PessoaJuridicaServices
+from infraestrutura.utils.ValidarCpfCnpj import ValidarCpfCnpj
+from pessoaJuridica.dominio.PessoaJuridica import PessoaJuridica
 
 pessoaJuridicaServices = PessoaJuridicaServices()
 
@@ -15,23 +17,23 @@ class Application:
         self.frame = LabelFrame(self.master, bd=10, padx=10)
         self.frame.grid(row=0, column=0)
 
-        Label(self.frame, text='Nome:').grid(row=3, column=0)
-        self.nome = Entry(self.frame, width=32, bd=2)
-        self.nome.grid(row=3, column=2)
+        Label(self.frame, text='Razão social:').grid(row=3, column=0)
+        self.razaoSocial = Entry(self.frame, width=32, bd=2)
+        self.razaoSocial.grid(row=3, column=2)
 
-        #Label de exibição das mensagens de erros referentes ao campo "Código do cliente"
-        self.erroNome = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.erroNome.grid(row=4, column=2)
+        #Label de exibição das mensagens de erros referentes ao campo "Razão social"
+        self.erroRazaoSocial = Label(self.frame, text='', font=self.fontErro, fg="red")
+        self.erroRazaoSocial.grid(row=4, column=2)
 
-        Label(self.frame, text='CPF:').grid(row=5, column=0)
-        self.cpf = Entry(self.frame, width=32, bd=2)
-        self.cpf.grid(row=5, column=2)
+        Label(self.frame, text='CNPJ:').grid(row=5, column=0)
+        self.cnpj = Entry(self.frame, width=32, bd=2)
+        self.cnpj.grid(row=5, column=2)
 
-        #Label de exibição das mensagens de erros referentes ao campo "Cpf"
-        self.erroCpf = Label(self.frame, text='', font=self.fontErro, fg="red")
-        self.erroCpf.grid(row=6, column=2)
+        #Label de exibição das mensagens de erros referentes ao campo "CNPJ"
+        self.erroCnpj = Label(self.frame, text='', font=self.fontErro, fg="red")
+        self.erroCnpj.grid(row=6, column=2)
 
-        self.btnAdd = ttk.Button(self.frame, text='ATUALIZAR').grid(row=7, column=2)
+        self.btnAdd = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarPessoaJuridica).grid(row=7, column=2)
 
         #Label de exibição das mensagens de erros relacionadas as regras de negócio
         self.texto = Label(self.frame, text='', font=self.fontErro, fg="red")
@@ -45,6 +47,7 @@ class Application:
             self.tree = ttk.Treeview(self.master, height=10, columns=2, selectmode='browse')
             self.tree.grid(row=4, column=0, columnspan=3, pady=10, padx=10)
             self.tree["columns"] = ("codigo_cliente", "cnpj", "razao_social")
+            self.tree.bind('<Double-1>', self.preencheCampoClick)
             self.tree.heading("#0", text="first", anchor="w")
             self.tree.column("#0", stretch=NO, width=0, anchor="w")
             self.tree.heading("codigo_cliente", text="Código cliente")
@@ -64,6 +67,86 @@ class Application:
                 self.tree.insert("", "end", text="Person", values=i)
         else:
             self.texto["text"] = self.pessoas
+
+    #Método para validação dos campos
+    def validarCampos(self):
+        self.limparLabels()
+        razao_social, cnpj = self.razaoSocial.get().strip(), self.cnpj.get().strip()
+        verificador = True
+        if razao_social == "":
+            self.erroRazaoSocial.grid()
+            self.erroRazaoSocial["text"] = "*Campo razão social não pode ficar vazio"
+            verificador = False
+        if cnpj == "":
+            self.erroCnpj.grid()
+            self.erroCnpj["text"] = "*Campo CNPJ não pode ficar vazio"
+            verificador = False
+        elif not cnpj.isdigit():
+            self.erroCnpj.grid()
+            self.erroCnpj["text"] = "*Campo CNPJ só deve conter números"
+            verificador = False
+        elif len(cnpj) != 14:
+            self.erroCnpj.grid()
+            self.erroCnpj["text"] = "*Campo CNPJ possui informações inválidas"
+            verificador = False
+        elif len(cnpj) == 14:
+            if not(ValidarCpfCnpj(cnpj).isCnpj()):
+                self.erroCnpj.grid()
+                self.erroCnpj["text"] = "*Campo CNPJ possui informações inválidas"
+                verificador = False
+        return verificador
+
+    #Método de validação do cadastro (regras de negócio)
+    def validarAtualizacao(self, verificador):
+        self.limparLabels()
+        booleano = True
+        if verificador != None:
+            if verificador.args[0] == 1406:
+                self.erroRazaoSocial.grid()
+                self.erroRazaoSocial["text"] = "*Razão social: máximo de 100 caracteres"
+                booleano = False
+        return booleano
+
+    #Método que atualiza pessoa jurídica
+    def atualizarPessoaJuridica(self):
+        pessoaJuridicaAntiga = self.selecionarItem()
+        if pessoaJuridicaAntiga != None:
+            if self.validarCampos():
+                pessoaJuridicaAtual = PessoaJuridica(None, self.cnpj.get().strip(), self.razaoSocial.get().strip())
+                verificador = pessoaJuridicaServices.atualizarPessoaJuridica(pessoaJuridicaAntiga.getCodigoCliente(), pessoaJuridicaAtual)
+                if self.validarAtualizacao(verificador):
+                    self.texto.grid()
+                    self.texto["text"] = "Pesso jurídica atualizada com sucesso"
+                    self.limparEntry()
+                    self.listarPessoas()
+
+    #Recuperando elemento selecionado na árvore
+    def selecionarItem(self):
+        itemSelecionado = self.tree.focus()
+        if itemSelecionado != "":
+            codigo_cliente, cnpj, razao_social = self.tree.item(itemSelecionado)['values'][0], \
+                                                 self.tree.item(itemSelecionado)['values'][1], \
+                                                 self.tree.item(itemSelecionado)['values'][2]
+            return PessoaJuridica(codigo_cliente, cnpj, razao_social)
+
+    #Preenchendo campos quando for detectado o evento de double click em algum elemento da árvore
+    def preencheCampoClick(self, event):
+        if self.tree.focus() != "":
+            self.limparEntry()
+            pessoaJuridica = self.selecionarItem()
+            self.razaoSocial.insert (0, pessoaJuridica.getRazaoSocial())
+            self.cnpj.insert(0, pessoaJuridica.getCnpj())
+
+    #Limpando as labels para evitar mensagens de erros inconsistentes
+    def limparLabels(self):
+        self.erroRazaoSocial["text"] = ""
+        self.erroCnpj["text"] = ""
+        self.texto["text"] = ""
+
+    #Limapando Entrys após modificações no banco
+    def limparEntry(self):
+        self.razaoSocial.delete(0, 'end')
+        self.cnpj.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
 if __name__ == '__main__':

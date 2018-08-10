@@ -50,24 +50,24 @@ class Application:
 
         self.btnAdd = ttk.Button(self.frame, text='CADASTRAR', command=self.inserirTipoServico).grid(row=11, column=2)
 
-        self.texto = Label(self.frame, text='asd', font=self.fontErro, fg="red")
+        self.texto = Label(self.frame, text='', font=self.fontErro, fg="red")
         self.texto.grid(row=13, column=2)
 
         #Populando árvore
         self.popular_arvore()
 
-        # Cria scrollbar_vertical de rolagem
+        #Cria scrollbar_vertical de rolagem
         self.scrollbar_vertical = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
 
-        # Adiciona scrollbar_vertical de rolagem
+        #Adiciona scrollbar_vertical de rolagem
         self.scrollbar_vertical.place(x=430, y=283, height=218 + 10)
 
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
-        # Botões de interação
+        #Botões de interação
         self.btnApagar = ttk.Button(text='DELETAR', command=self.removerTipoServico)
         self.btnApagar.grid(row=4, column=3)
-        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
+        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarTipoServico)
         self.btnAtualizar.grid(row=12, column=2, sticky=S, padx=10, pady=10)
 
     #Montando o tree view e preenchendo com os dados cadastrados no banco
@@ -75,6 +75,7 @@ class Application:
         self.tree = ttk.Treeview(self.master, height=10, columns=2, selectmode='browse')
         self.tree.grid(row=4, column=0, columnspan=3, pady=10, padx=10)
         self.tree["columns"] = ("codigo", "descricao", "duracao_m2", "valor_m2")
+        self.tree.bind('<Double-1>', self.preencheCampoClick)
         self.tree.heading("#0", text="first", anchor="w")
         self.tree.column("#0", stretch=NO, width=0, anchor="w")
         self.tree.heading("codigo", text="Código")
@@ -87,7 +88,8 @@ class Application:
         self.tree.column("valor_m2", anchor="center", width=80)
         self.listarTiposServicos()
 
-    def retonarDadosCampo(self):
+    #Retornando valores digitados nos campos
+    def retornarDadosCampo(self):
         return (self.codigo.get().strip(), self.descricao.get().strip(), self.duracao_m2.get().strip().replace(",", "."), self.valor_m2.get().strip().replace(",", "."))
 
     #Método para validação dos campos
@@ -95,7 +97,7 @@ class Application:
         self.limparLabels()
         verificador = True
         try:
-            dados = self.retonarDadosCampo()
+            dados = self.retornarDadosCampo()
             codigo, descricao, duracao_m2, valor_m2 = dados[0], dados[1], dados[2], dados[3]
             if codigo == "":
                 self.erroCodigo.grid()
@@ -127,10 +129,39 @@ class Application:
             verificador = False
         return verificador
 
+    #Método para validação dos campos
+    def validarAtualizacao(self):
+        self.limparLabels()
+        verificador = True
+        try:
+            dados = self.retornarDadosCampo()
+            descricao, duracao_m2, valor_m2 = dados[1], dados[2], dados[3]
+            if descricao == "":
+                self.erroDescricao.grid()
+                self.erroDescricao["text"] = "*Campo descrição não pode ficar vazio"
+                verificador = False
+            if duracao_m2 == "":
+                self.erroDuracaoM2.grid()
+                self.erroDuracaoM2["text"] = "*Campo duração(m2) não deve ficar vazio"
+                verificador = False
+            elif float(duracao_m2):
+                pass
+            if valor_m2 == "":
+                self.erroValorM2.grid()
+                self.erroValorM2["text"] = "*Campo valor por m2 não deve ficar vazio"
+                verificador = False
+            elif float(valor_m2):
+                pass
+        except ValueError:
+            self.texto.grid()
+            self.texto["text"] = "*Campo duração e valor só devem números"
+            verificador = False
+        return verificador
+
     #Método de inserção do tipo de serviço no banco de dados
     def inserirTipoServico(self):
         if self.validarCampos():
-            dados = self.retonarDadosCampo()
+            dados = self.retornarDadosCampo()
             codigo, descricao, duracao_m2, valor_m2 = dados[0], dados[1], dados[2], dados[3]
             verificador = tipoServicoServices.inserirTipoServico(TipoServico(codigo, descricao, duracao_m2, valor_m2))
             if self.validarCadastroTipoServico(verificador):
@@ -148,6 +179,31 @@ class Application:
                 self.listarTiposServicos()
             else:
                 self.texto["text"] = verificador
+
+    #Método que atualiza tipo de serviço
+    def atualizarTipoServico(self):
+        self.limparLabels()
+        tipoServicoAntigo = self.selecionarItem()
+        if tipoServicoAntigo != None:
+            if self.validarAtualizacao():
+                tipoServicoAtual = self.retornarDadosCampo()
+                verificador = tipoServicoServices.atualizarTipoServico(tipoServicoAntigo.getCodigo(), TipoServico(tipoServicoAtual[0], tipoServicoAtual[1], tipoServicoAtual[2], tipoServicoAtual[3]))
+                if self.validarCadastroTipoServico(verificador):
+                    self.texto.grid()
+                    self.texto["text"] = "Tipo de serviço atualizado com sucesso"
+                    self.limparEntry()
+                    self.listarTiposServicos()
+
+    #Preenchendo campos para atualização
+    def preencheCampoClick(self, event):
+        if self.tree.focus() != "":
+            self.limparEntry()
+            self.limparLabels()
+            tipoServico = self.selecionarItem()
+            self.codigo.insert(0,tipoServico.getCodigo())
+            self.descricao.insert(0,tipoServico.getDescricao())
+            self.duracao_m2.insert(0, tipoServico.getDuracaoM2())
+            self.valor_m2.insert(0, tipoServico.getValorM2())
 
     #Método de validação do cadastro (regras de negócio)
     def validarCadastroTipoServico(self, verificador):
@@ -170,18 +226,12 @@ class Application:
                 elif "valor_m2" in verificador.args[1]:
                     self.erroValorM2.grid()
                     self.erroValorM2["text"] = "*Valor máximo excedido"
+                    booleano = False
             elif verificador.args[0] == 1406:
                 self.erroDescricao.grid()
                 self.erroDescricao["text"] = "Descrição: máximo de 100 caracteres"
                 booleano = False
         return booleano
-
-    #Limpando as labels para evitar mensagens de erros inconsistentes
-    def limparLabels(self):
-        self.erroCodigo["text"] = ""
-        self.erroDescricao["text"] = ""
-        self.erroDuracaoM2["text"] = ""
-        self.erroValorM2["text"] = ""
 
     #Recuperando elemento selecionado na árvore
     def selecionarItem(self):
@@ -202,6 +252,20 @@ class Application:
                 self.tree.insert("", "end", text="Person", values=i)
         else:
             self.texto["text"] = self.tipos
+
+    #Limpando as labels para evitar mensagens de erros inconsistentes
+    def limparLabels(self):
+        self.erroCodigo["text"] = ""
+        self.erroDescricao["text"] = ""
+        self.erroDuracaoM2["text"] = ""
+        self.erroValorM2["text"] = ""
+
+    #Limapando Entrys após modificações no banco
+    def limparEntry(self):
+        self.codigo.delete(0, 'end')
+        self.descricao.delete(0, 'end')
+        self.duracao_m2.delete(0, 'end')
+        self.valor_m2.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
 if __name__ == '__main__':

@@ -121,6 +121,7 @@ class Application:
             if self.validarCadastro(verificador):
                 self.texto.grid()
                 self.texto["text"] = "Pedido cadastrado com sucesso"
+                self.limparEntry()
                 self.listarPedidos()
 
     #Método que remove cliente do banco de dados
@@ -184,13 +185,6 @@ class Application:
                 booleano = False
         return booleano
 
-    def limparLabels(self):
-        self.erroNumero["text"] = ""
-        self.erroCodigoCliente["text"] = ""
-        self.erroDataAbertura["text"] = ""
-        self.erroLocal["text"] = ""
-        self.erroDataRealizacao["text"] = ""
-
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
             self.tree = ttk.Treeview(self.master, height=10, columns=2, selectmode='browse')
@@ -220,6 +214,21 @@ class Application:
         else:
             self.texto["text"] = self.pedidos
 
+    #Limpando labels com os erros/sucesso
+    def limparLabels(self):
+        self.erroNumero["text"] = ""
+        self.erroCodigoCliente["text"] = ""
+        self.erroDataAbertura["text"] = ""
+        self.erroLocal["text"] = ""
+        self.erroDataRealizacao["text"] = ""
+
+    #Limapando Entrys após modificações no banco
+    def limparEntry(self):
+        self.numero.delete(0, 'end')
+        self.codigoCliente.delete(0, 'end')
+        self.dataAbertura.delete(0, 'end')
+        self.local.delete(0, 'end')
+        self.dataRealizacao.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
 if __name__ == '__main__':
