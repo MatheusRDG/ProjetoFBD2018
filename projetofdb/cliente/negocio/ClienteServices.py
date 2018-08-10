@@ -10,7 +10,6 @@ class ClienteServices:
         try:
             self.connection.insert(("INSERT INTO cliente VALUES (%s,%s,'" + cliente.getEndereco() + "'" + ")") %(cliente.getCodigo(), cliente.getTelefone()))
         except MySQLError as e:
-            print(e)
             return e
 
     def removerCliente(self, cliente):
@@ -21,9 +20,10 @@ class ClienteServices:
 
     def atualizarCliente(self, codigo, cliente):
         try:
-            self.connection.update("UPDATE cliente SET telefone = %s, endereco = %s WHERE codigo = %s"
-                                   % ("'" + cliente.getTelefone() + "'", "'" + cliente.getEndereco() + "'", codigo))
+            self.connection.update("UPDATE cliente SET codigo = %s, telefone = %s, endereco = %s WHERE codigo = %s"
+                                   %(cliente.getCodigo(), "'" + cliente.getTelefone() + "'", "'" + cliente.getEndereco() + "'", codigo))
         except MySQLError as e:
+            print(e)
             return e
 
     def listarClientes(self, query):
