@@ -5,9 +5,11 @@ from itemPedido.dominio.ItemPedido import ItemPedido
 
 itemPedidoServices = ItemPedidoServices()
 
-class Application:
-    def __init__(self, master):
-        self.master = master
+class MainFrameItemPedido:
+    def __init__(self):
+        self.root = Toplevel()
+        self.root.title("Item pedido")
+        self.master = self.root
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
         self.master.resizable(width=0, height=0)#Retirando o opção de maximização do frame master
         self.fontErro = ("Arial", "8", "italic")#Estilo de fonte para as mensagens de erro
@@ -47,7 +49,7 @@ class Application:
         self.texto.grid(row=11, column=2)
 
         # Botões de interação
-        self.btnApagar = ttk.Button(text='DELETAR', command=self.removerItemPedido)
+        self.btnApagar = ttk.Button(self.master,text='DELETAR', command=self.removerItemPedido)
         self.btnApagar.grid(row=4, column=3, padx=10)
         self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarItemPedido)
         self.btnAtualizar.grid(row=10, column=2, pady=10)
@@ -62,6 +64,8 @@ class Application:
         self.scrollbar_vertical.place(x=398, y=243, height=217 + 10)
 
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
+
+        self.root.mainloop()
 
     #Método para validação dos campos
     def validarCampos(self):
@@ -236,9 +240,5 @@ class Application:
         self.metragem.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentItemPedido(main):
-    main.destroy()
-    root = Tk()
-    root.title("Item pedido")
-    application = Application(root)
-    root.mainloop()
+if __name__ == "__main__":
+    MainFrameItemPedido()

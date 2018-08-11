@@ -8,7 +8,8 @@ pessoaJuridicaServices = PessoaJuridicaServices()
 
 class MainFramePessoaJuridica:
     def __init__(self):
-        self.root = Tk()
+        self.root = Toplevel()
+        self.root.grab_set()
         self.root.title("Pessoa jurídica")
         self.master = self.root
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
@@ -43,6 +44,14 @@ class MainFramePessoaJuridica:
 
         #Populando árvore
         self.popular_arvore()
+
+        # Cria scrollbar_vertical de rolagem
+        self.scrollbar_vertical = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
+
+        # Adiciona scrollbar_vertical de rolagem
+        self.scrollbar_vertical.place(x=400, y=157, height=217 + 10)
+
+        self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
         self.root.mainloop()
 
@@ -152,10 +161,6 @@ class MainFramePessoaJuridica:
         self.razaoSocial.delete(0, 'end')
         self.cnpj.delete(0, 'end')
 
-    #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-    def intentPessoaJuridica(self,main):
-        main.destroy()
-        MainFramePessoaJuridica()
-
+#Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
 if __name__=='__main__':
     MainFramePessoaJuridica()

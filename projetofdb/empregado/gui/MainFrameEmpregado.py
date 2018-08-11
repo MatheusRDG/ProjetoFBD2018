@@ -5,10 +5,13 @@ from empregado.dominio.Empregado import Empregado
 
 empragadoServices = EmpregadoServices()
 
-class Application:
+class MainFrameEmpregado:
 
-    def __init__(self, master):
-        self.master = master
+    def __init__(self):
+        self.root = Toplevel()
+        self.root.grab_set()#Definindo foca na tela
+        self.root.title("Empregados")
+        self.master = self.root
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
         self.master.minsize(width=360, height=450)#Fixando as dimensões do frame master
         self.master.resizable(width=0, height=0)#Retirando o opção de maximização do frame master
@@ -52,10 +55,12 @@ class Application:
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
         #Botões de interação
-        self.btnApagar = ttk.Button(text='DELETAR', command=self.removerEmpregado)
+        self.btnApagar = ttk.Button(self.master, text='DELETAR', command=self.removerEmpregado)
         self.btnApagar.grid(row=4, column=3)
         self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarEmpregado)
         self.btnAtualizar.grid(row=8, column=2, pady=10)
+
+        self.root.mainloop()
 
     #Método para validação dos campos
     def validarCampos(self):
@@ -195,9 +200,5 @@ class Application:
         self.matricula.delete(0, 'end')
         self.nome.delete(0, 'end')
 
-def intentEmpregado(main):
-    main.destroy()
-    root = Tk()
-    root.title("Empregados")
-    application = Application(root)
-    root.mainloop()
+if __name__ == '__main__':
+    MainFrameEmpregado()

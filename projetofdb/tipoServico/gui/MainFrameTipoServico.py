@@ -6,8 +6,11 @@ from tipoServico.dominio.TipoServico import TipoServico
 tipoServicoServices = TipoServicoServices()
 
 class MainFrameTipoServico:
-    def __init__(self, master):
-        self.master = master
+    def __init__(self):
+        self.root = Toplevel()
+        self.root.grab_set()
+        self.root.title("Tipo serviço")
+        self.master = self.root
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
         self.master.resizable(width=0, height=0)#Retirando o opção de maximização do frame master
         self.fontErro = ("Arial", "8", "italic")#Estilo de fonte para as mensagens de erro
@@ -65,10 +68,12 @@ class MainFrameTipoServico:
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
         #Botões de interação
-        self.btnApagar = ttk.Button(text='DELETAR', command=self.removerTipoServico)
+        self.btnApagar = ttk.Button(self.master, text='DELETAR', command=self.removerTipoServico)
         self.btnApagar.grid(row=4, column=3)
         self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarTipoServico)
         self.btnAtualizar.grid(row=12, column=2, sticky=S, padx=10, pady=10)
+
+        self.root.mainloop()
 
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
@@ -240,9 +245,5 @@ class MainFrameTipoServico:
         self.valor_m2.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentTipoServico(main):
-    main.destroy()
-    root = Tk()
-    root.title("Tipo serviço")
-    application = MainFrameTipoServico(root)
-    root.mainloop()
+if __name__=='__main__':
+    MainFrameTipoServico()

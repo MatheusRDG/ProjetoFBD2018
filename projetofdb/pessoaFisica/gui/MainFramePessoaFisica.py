@@ -8,7 +8,8 @@ pessoaFisicaServices = PessoaFisicaServices()
 
 class MainFramePessoaFisica:
     def __init__(self):
-        self.root = Tk()
+        self.root = Toplevel()
+        self.root.grab_set()
         self.root.title("Pessoa física")
         self.master = self.root
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões

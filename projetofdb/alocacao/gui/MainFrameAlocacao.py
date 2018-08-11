@@ -5,9 +5,12 @@ from alocacao.dominio.Alocacao import Alocacao
 
 alocacaoServices = AlocacaoServices()
 
-class Application:
-    def __init__(self, master):
-        self.master = master
+class MainFrameAlocacao:
+    def __init__(self):
+        self.root = Toplevel()
+        self.root.grab_set()
+        self.root.title("Alocação")
+        self.master = self.root
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
         self.master.resizable(width=0, height=0)#Retirando o opção de maximização do frame master
         self.fontErro = ("Arial", "8", "italic")#Estilo de fonte para as mensagens de erro
@@ -43,7 +46,7 @@ class Application:
         self.btnCadastrar = ttk.Button(self.frame, text='CADASTRAR', command=self.inserirAlocacao).grid(row=9, column=2)
 
         # Botões de interação
-        self.btnApagar = ttk.Button(text='DELETAR', command=self.removerAlocacao)
+        self.btnApagar = ttk.Button(self.master,text='DELETAR', command=self.removerAlocacao)
         self.btnApagar.grid(row=4, column=3, padx=10)
         self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
         self.btnAtualizar.grid(row=10, column=2, pady=10)
@@ -62,6 +65,8 @@ class Application:
         self.scrollbar_vertical.place(x=450, y=243, height=217 + 10)
 
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
+
+        self.root.mainloop()
 
     def retornarDadosEntry(self):
         return self.matriculaEmpregado.get().strip(), self.codigoServico.get().strip(), self.numeroPedido.get().strip()
@@ -207,9 +212,5 @@ class Application:
         self.numeroPedido.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentAlocacao(main):
-    main.destroy()
-    root = Tk()
-    root.title("Alocação")
-    application = Application(root)
-    root.mainloop()
+if __name__ == "__main__":
+    MainFrameAlocacao()

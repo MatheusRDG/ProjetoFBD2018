@@ -4,7 +4,7 @@ from pymysql import MySQLError
 class PedidoServices:
 
     def __init__(self):
-        self.connection = Banco("localhost", "root", "", "servicos_limpeza")
+        self.connection = Banco()
 
     def inserirPedido(self, pedido):
         try:

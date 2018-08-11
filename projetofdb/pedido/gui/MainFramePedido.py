@@ -5,9 +5,12 @@ from pedido.dominio.Pedido import Pedido
 
 pedidoServices = PedidoServices()
 
-class Application:
-    def __init__(self, master):
-        self.master = master
+class MainFramePedido:
+    def __init__(self):
+        self.root = Toplevel()
+        self.root.grab_set()
+        self.root.title("Pedidos")
+        self.master = self.root
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
         self.master.resizable(width=0, height=0)#Retirando o opção de maximização do frame master
         self.fontErro = ("Arial", "8", "italic")#Estilo de fonte para as mensagens de erro
@@ -74,10 +77,12 @@ class Application:
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
         #Botões de interação
-        self.btnApagar = ttk.Button(text='DELETAR', command=self.removerPedido)
+        self.btnApagar = ttk.Button(self.master,text='DELETAR', command=self.removerPedido)
         self.btnApagar.grid(row=4, column=5)
         self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarPedido)
         self.btnAtualizar.grid(row=14, column=2, padx=10, pady=5)
+
+        self.root.mainloop()
 
     #Método que retorna os dados dos campos
     def criarPedido(self):
@@ -264,9 +269,5 @@ class Application:
         self.dataRealizacao.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentPedido(main):
-    main.destroy()
-    root = Tk()
-    root.title("Pedidos")
-    application = Application(root)
-    root.mainloop()
+if __name__=="__main__":
+    MainFramePedido()

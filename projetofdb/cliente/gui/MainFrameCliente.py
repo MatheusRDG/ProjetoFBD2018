@@ -14,9 +14,12 @@ clienteServices = ClienteServices()
 pessoaFisicaServices = PessoaFisicaServices()
 pessoaJuridicaServices = PessoaJuridicaServices()
 
-class Application:
-    def __init__(self, master):
-        self.master = master
+class MainFrameCliente:
+    def __init__(self):
+        self.root = Toplevel()
+        self.root.grab_set()
+        self.root.title("Clientes")
+        self.master = self.root
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
         self.master.resizable(width=0, height=0)#Retirando o opção de maximização do frame master
         self.fontErro = ("Arial", "8", "italic")#Estilo de fonte para as mensagens de erro
@@ -117,10 +120,12 @@ class Application:
         self.tree.configure(xscroll=self.scrollbar_horizontal.set)
 
         #Botões de interação
-        self.btnApagar = ttk.Button(text='DELETAR', command=self.removerCliente)
+        self.btnApagar = ttk.Button(self.master,text='DELETAR', command=self.removerCliente)
         self.btnApagar.grid(row=4, column=4, padx=20)
         self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR', command=self.atualizarCliente)
         self.btnAtualizar.grid(row=20, column=1, padx=10, pady=10)
+
+        self.root.mainloop()
 
     #Método para validação dos campos
     def validarCampos(self):
@@ -365,9 +370,5 @@ class Application:
         self.estado.set('')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentCliente(main):
-    main.destroy()
-    root = Tk()
-    root.title("Clientes")
-    application = Application(root)
-    root.mainloop()
+if __name__ == '__main__':
+    MainFrameCliente()

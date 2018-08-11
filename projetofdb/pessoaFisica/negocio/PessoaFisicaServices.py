@@ -4,7 +4,7 @@ from pymysql import MySQLError
 class PessoaFisicaServices:
 
     def __init__(self):
-        self.connection = BancoDados.Banco("localhost", "root", "", "servicos_limpeza")
+        self.connection = BancoDados.Banco()
 
     def inserirPessoaFisica(self, pessoaFisica):
         try:

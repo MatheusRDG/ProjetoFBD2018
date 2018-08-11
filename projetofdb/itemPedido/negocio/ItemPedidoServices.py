@@ -4,7 +4,7 @@ from pymysql import MySQLError
 class ItemPedidoServices:
 
     def __init__(self):
-        self.connection = BancoDados.Banco("localhost", "root", "", "servicos_limpeza")
+        self.connection = BancoDados.Banco()
 
     def inserirItemPedido(self, itemPedido):
         try:
