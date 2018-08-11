@@ -105,6 +105,7 @@ class Application:
                     self.erroMatricula.grid()
                     self.erroMatricula["text"] = "*Valor máximo excedido (máximo: 11 caracteres)"
                     booleano = False
+
         return booleano
 
     #Método de inserção do empregado no banco de dados
@@ -135,7 +136,7 @@ class Application:
         empragadoAntigo = self.selecionarItem()
         if empragadoAntigo != None:
             if self.validarAtualizacao():
-                verificador = empragadoServices.atualizarEmpregado(empragadoAntigo.getMatricula(), Empregado(self.matricula.get().strip(), self.nome.get().strip()))
+                verificador = empragadoServices.atualizarEmpregado(empragadoAntigo.getMatricula(), Empregado(None, self.nome.get().strip()))
                 if self.validarCadastro(verificador):
                     self.texto.grid()
                     self.texto["text"] = "*Empregado atualizado com sucesso"
@@ -194,8 +195,7 @@ class Application:
         self.matricula.delete(0, 'end')
         self.nome.delete(0, 'end')
 
-#Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-if __name__ == '__main__':
+def intentEmpregado():
     root = Tk()
     root.title("Empregados")
     application = Application(root)

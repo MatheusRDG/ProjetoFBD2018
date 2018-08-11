@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d266d6b0-0569-4a6c-8ae7-8b28290fe149" name="Default" comment="" />
+    <list default="true" id="d266d6b0-0569-4a6c-8ae7-8b28290fe149" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/pedido/gui/MainFramePedido.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pedido/negocio/PedidoServices.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cliente/gui/MainFrameCliente.py" beforeDir="false" afterPath="$PROJECT_DIR$/cliente/gui/MainFrameCliente.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cliente/negocio/ClienteServices.py" beforeDir="false" afterPath="$PROJECT_DIR$/cliente/negocio/ClienteServices.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py" beforeDir="false" afterPath="$PROJECT_DIR$/empregado/gui/MainFrameEmpregado.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/empregado/negocio/EmpregadoServices.py" beforeDir="false" afterPath="$PROJECT_DIR$/empregado/negocio/EmpregadoServices.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pedido/dominio/Pedido.py" beforeDir="false" afterPath="$PROJECT_DIR$/pedido/dominio/Pedido.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,7 +22,7 @@
     <session id="-615217382">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.8" value="1" />
@@ -91,7 +100,6 @@
       <file leaf-file-name="MainFrameTipoServico.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tipoServico/gui/MainFrameTipoServico.py">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< Updated upstream
             <state relative-caret-position="239">
               <caret line="193" column="71" lean-forward="true" selection-start-line="193" selection-start-column="71" selection-end-line="193" selection-end-column="71" />
               <folding>
@@ -118,15 +126,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="260">
               <caret line="72" column="19" lean-forward="true" selection-start-line="72" selection-start-column="19" selection-end-line="72" selection-end-column="19" />
-=======
-<<<<<<< Updated upstream
-            <state relative-caret-position="171">
-              <caret line="162" column="51" lean-forward="true" selection-start-line="162" selection-start-column="51" selection-end-line="162" selection-end-column="51" />
-=======
-            <state relative-caret-position="-881">
-              <caret line="58" column="89" selection-start-line="58" selection-start-column="89" selection-end-line="58" selection-end-column="89" />
->>>>>>> Stashed changes
->>>>>>> Stashed changes
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -597,15 +596,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-<<<<<<< Updated upstream
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-<<<<<<< Updated upstream
-=======
-    <editor active="true" />
-=======
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
->>>>>>> Stashed changes
->>>>>>> Stashed changes
     <layout>
 <<<<<<< Updated upstream
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16741072" />
@@ -627,7 +618,6 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39804772" />
 >>>>>>> Stashed changes
       <window_info id="Favorites" order="2" side_tool="true" />
-<<<<<<< Updated upstream
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -643,14 +633,6 @@
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-=======
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3275488" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3275488" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39804772" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
->>>>>>> Stashed changes
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3275488" />
@@ -969,15 +951,12 @@
     <entry file="file://$PROJECT_DIR$/tipoServico/gui/MainFrameTipoServico.py">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
         <state relative-caret-position="239">
           <caret line="193" column="71" lean-forward="true" selection-start-line="193" selection-start-column="71" selection-end-line="193" selection-end-column="71" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
 =======
-=======
->>>>>>> Stashed changes
         <state relative-caret-position="237">
           <caret line="123" column="36" lean-forward="true" selection-start-line="121" selection-start-column="16" selection-end-line="123" selection-end-column="36" />
 >>>>>>> Stashed changes
@@ -1068,7 +1047,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pedido/gui/MainFramePedido.py">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< Updated upstream
         <state relative-caret-position="171">
           <caret line="144" column="89" lean-forward="true" selection-start-line="144" selection-start-column="89" selection-end-line="144" selection-end-column="89" />
 =======
@@ -1078,13 +1056,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-408">
           <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-=======
-        <state relative-caret-position="188">
-          <caret line="191" column="42" selection-start-line="191" selection-start-column="42" selection-end-line="191" selection-end-column="42" />
-=======
-        <state relative-caret-position="-881">
-          <caret line="58" column="89" selection-start-line="58" selection-start-column="89" selection-end-line="58" selection-end-column="89" />
->>>>>>> Stashed changes
 >>>>>>> Stashed changes
           <folding>
             <element signature="e#0#20#0" expanded="true" />

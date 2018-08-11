@@ -136,10 +136,6 @@ class Application:
             self.erroCodigo.grid()
             self.erroCodigo["text"] = "*Campo código só deve conter números"
             verificador = False
-        elif len(codigo) > 11:
-            self.erroCodigo.grid()
-            self.erroCodigo["text"] = "*Código: máximo de 11 caracteres"
-            verificador = False
         if telefone == "":
             self.erroTelefone.grid()
             self.erroTelefone["text"] = "*Campo telefone não pode ficar vazio"
@@ -211,6 +207,8 @@ class Application:
         if self.validarCampos():
             dados = self.retornarDadosEntrys()
             cliente, cpfCnpj = Cliente(dados[0], str(dados[1]), dados[2]), dados[3]
+            if cliente.getEndereco() == ", . , .":
+                cliente.setEndereco("null")
             if self.inserirCliente(cliente):
                 if len(self.cpfCnpj.get().strip()) == 11:#isPessoaFísica
                     self.inserirPessoaFisica(PessoaFisica(cliente.getCodigo(), cpfCnpj, self.nomeRazaoSocial.get().strip()), cliente)
@@ -276,7 +274,7 @@ class Application:
             if self.validarCamposAtualizacao():
                 cilenteAtual = self.retornarDadosEntrys()
                 clienteAtual = Cliente(cilenteAtual[0], cilenteAtual[1], cilenteAtual[2])
-                if clienteAtual.getEndereco() == ", . , ":
+                if clienteAtual.getEndereco() == ", . , .":
                     clienteAtual.setEndereco("null")
                 verificador = clienteServices.atualizarCliente(clienteAntigo.getCodigo(), clienteAtual)
                 if self.validarCadastroCliente(verificador):
@@ -290,7 +288,7 @@ class Application:
         if self.tree.focus() != "":
             self.limparEntry()
             self.limparLabels()
-            self.texto["text"] = "*Atualize todos os campos exceto os que estão em branco"
+            self.texto["text"] = "*Atualize todos os campos exceto o campo código"
             cliente = self.selecionarItem()
             self.codigo.insert (0,cliente.getCodigo())
             self.telefone.insert(0,cliente.getTelefone())
@@ -300,13 +298,8 @@ class Application:
                 self.complemento.insert(0,lista[1].split(".")[0])
                 self.cidade.insert(0,lista[1].split(".")[1])
                 #Setando o Estado
-                if lista[2].strip() != "null":
-                    for i in range(len(self.estados)):
-                        if lista[2].strip() in self.estados[i]:
-                            self.estado.set(self.estados[i])
-                            break
-                else:
-                    self.estado.set(self.estados[0])
+                index = list(self.estados).index(lista[2].replace(".","").strip())
+                self.estado.set(self.estados[index])
 
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
@@ -342,16 +335,7 @@ class Application:
 
     #Montando string de endereço
     def montarEndereco(self):
-        rua, complemento, cidade, estado = self.rua.get().strip(), self.complemento.get().strip(), self.cidade.get().strip(), self.estado.get()[5:]
-        if rua == "":
-            rua = "null"
-        if complemento == "":
-            complemento = "null"
-        if cidade == "":
-            cidade = "null"
-        if estado == "":
-            estado = "null"
-        return rua + ", " + complemento + ". " + cidade + ", " + estado
+        return self.rua.get().strip() + ", " + self.complemento.get().strip() + ". " + self.cidade.get().strip() + ", " + self.estado.get() + "."
 
     #Retornando os dados digitados nos Entrys
     def retornarDadosEntrys(self):
@@ -381,7 +365,7 @@ class Application:
         self.estado.set('')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-if __name__ == '__main__':
+def intentCliente():
     root = Tk()
     root.title("Clientes")
     application = Application(root)

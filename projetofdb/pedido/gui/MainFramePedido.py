@@ -160,7 +160,7 @@ class Application:
         if self.tree.focus() != "":
             self.limparEntry()
             self.limparLabels()
-            self.texto["text"] = "*Atualize todos os campos exceto o número do pedido"
+            self.texto["text"] = "*Atualize todos os campos exceto o número"
             pedido = self.selecionarItem()
             self.numero.insert(0, pedido.getNumero())
             self.codigoCliente.insert(0, pedido.getCodigoCliente())
@@ -264,7 +264,7 @@ class Application:
         self.dataRealizacao.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-if __name__ == '__main__':
+def intentPedido():
     root = Tk()
     root.title("Pedidos")
     application = Application(root)

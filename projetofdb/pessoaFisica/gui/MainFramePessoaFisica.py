@@ -157,7 +157,7 @@ class Application:
         self.cpf.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-if __name__ == '__main__':
+def intentPessoaFisica():
     root = Tk()
     root.title("Pessoa física")
     application = Application(root)

@@ -207,8 +207,10 @@ class Application:
         self.numeroPedido.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-if __name__ == '__main__':
+def intentAlocacao():
     root = Tk()
     root.title("Alocação")
     application = Application(root)
     root.mainloop()
+def printar():
+    print('ok')

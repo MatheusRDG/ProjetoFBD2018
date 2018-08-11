@@ -132,7 +132,6 @@ class Application:
             if self.validarCadastroTipoServico(verificador):
                 self.texto.grid()
                 self.texto["text"] = "Tipo de serviço cadastrado com sucesso"
-                self.limparEntry()
                 self.listarTiposServicos()
 
     def removerTipoServico(self):
@@ -241,7 +240,7 @@ class Application:
         self.valor_m2.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-if __name__ == '__main__':
+def intentTipoServico():
     root = Tk()
     root.title("Tipo serviço")
     application = Application(root)
