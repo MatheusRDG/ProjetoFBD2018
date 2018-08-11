@@ -5,7 +5,7 @@ from tipoServico.dominio.TipoServico import TipoServico
 
 tipoServicoServices = TipoServicoServices()
 
-class Application:
+class MainFrameTipoServico:
     def __init__(self, master):
         self.master = master
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
@@ -240,8 +240,9 @@ class Application:
         self.valor_m2.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentTipoServico():
+def intentTipoServico(main):
+    main.destroy()
     root = Tk()
     root.title("Tipo serviço")
-    application = Application(root)
+    application = MainFrameTipoServico(root)
     root.mainloop()

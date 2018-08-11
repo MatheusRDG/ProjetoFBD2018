@@ -195,7 +195,8 @@ class Application:
         self.matricula.delete(0, 'end')
         self.nome.delete(0, 'end')
 
-def intentEmpregado():
+def intentEmpregado(main):
+    main.destroy()
     root = Tk()
     root.title("Empregados")
     application = Application(root)

@@ -6,9 +6,11 @@ from pessoaFisica.dominio.PessoaFisica import PessoaFisica
 
 pessoaFisicaServices = PessoaFisicaServices()
 
-class Application:
-    def __init__(self, master):
-        self.master = master
+class MainFramePessoaFisica:
+    def __init__(self):
+        self.root = Tk()
+        self.root.title("Pessoa física")
+        self.master = self.root
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
         self.master.resizable(width=0, height=0)#Retirando o opção de maximização do frame master
         self.fontErro = ("Arial", "8", "italic")#Estilo de fonte para as mensagens de erro
@@ -49,6 +51,8 @@ class Application:
         self.scrollbar_vertical.place(x=400, y=157, height=217 + 10)
 
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
+
+        self.root.mainloop()
 
     #Método para validação dos campos
     def validarCampos(self):
@@ -156,9 +160,10 @@ class Application:
         self.nome.delete(0, 'end')
         self.cpf.delete(0, 'end')
 
-#Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentPessoaFisica():
-    root = Tk()
-    root.title("Pessoa física")
-    application = Application(root)
-    root.mainloop()
+    #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
+    def intentPessoaFisica(self, main):
+        main.destroy()
+        MainFramePessoaFisica()
+
+if __name__=='__main__':
+    MainFramePessoaFisica()

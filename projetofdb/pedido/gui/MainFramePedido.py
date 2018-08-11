@@ -264,7 +264,8 @@ class Application:
         self.dataRealizacao.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentPedido():
+def intentPedido(main):
+    main.destroy()
     root = Tk()
     root.title("Pedidos")
     application = Application(root)

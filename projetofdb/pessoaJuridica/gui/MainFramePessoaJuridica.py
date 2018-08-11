@@ -6,9 +6,11 @@ from pessoaJuridica.dominio.PessoaJuridica import PessoaJuridica
 
 pessoaJuridicaServices = PessoaJuridicaServices()
 
-class Application:
-    def __init__(self, master):
-        self.master = master
+class MainFramePessoaJuridica:
+    def __init__(self):
+        self.root = Tk()
+        self.root.title("Pessoa jurídica")
+        self.master = self.root
         self.estilo_botao = ttk.Style().configure("TButton", relief="flat", background="#ccc")#Estilo para os botões
         self.master.resizable(width=0, height=0)#Retirando o opção de maximização do frame master
         self.fontErro = ("Arial", "8", "italic")#Estilo de fonte para as mensagens de erro
@@ -41,6 +43,8 @@ class Application:
 
         #Populando árvore
         self.popular_arvore()
+
+        self.root.mainloop()
 
     #Montando o tree view e preenchendo com os dados cadastrados no banco
     def popular_arvore(self):
@@ -148,9 +152,10 @@ class Application:
         self.razaoSocial.delete(0, 'end')
         self.cnpj.delete(0, 'end')
 
-#Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentPessoaJuridica():
-    root = Tk()
-    root.title("Pessoa jurídica")
-    application = Application(root)
-    root.mainloop()
+    #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
+    def intentPessoaJuridica(self,main):
+        main.destroy()
+        MainFramePessoaJuridica()
+
+if __name__=='__main__':
+    MainFramePessoaJuridica()

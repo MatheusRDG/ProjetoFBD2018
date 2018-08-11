@@ -47,15 +47,13 @@ class Application:
         self.scrollbar_vertical = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
 
         #Adiciona scrollbar_vertical de rolagem
-        self.scrollbar_vertical.place(x=355, y=202, height=217 + 10)
+        self.scrollbar_vertical.place(x=355, y=157, height=217 + 10)
 
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
         #Botões de interação
         self.btnApagar = ttk.Button(text='DELETAR', command=self.removerHabilitacao)
         self.btnApagar.grid(row=4, column=3, padx=10)
-        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
-        self.btnAtualizar.grid(row=8, column=1, pady=10)
 
     #Método para validação dos campos
     def validarCampos(self):
@@ -174,7 +172,8 @@ class Application:
         self.matriculaEmpregado.delete(0, 'end')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentHabilitacao():
+def intentHabilitacao(main):
+    main.destroy()
     root = Tk()
     root.title("Habilitação")
     application = Application(root)

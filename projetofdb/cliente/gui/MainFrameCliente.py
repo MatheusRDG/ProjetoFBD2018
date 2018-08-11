@@ -365,7 +365,8 @@ class Application:
         self.estado.set('')
 
 #Executando a classe main, que nesse caso é o Application, mas caso ela seja importado como módulo em outro arquivo a sua execução será controlada
-def intentCliente():
+def intentCliente(main):
+    main.destroy()
     root = Tk()
     root.title("Clientes")
     application = Application(root)

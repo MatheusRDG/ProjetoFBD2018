@@ -1,8 +1,3 @@
-#Classe main de execução
-
-from tkinter import*
-from tkinter import ttk
-
 from alocacao.gui.MainFrameAlocacao import *
 from cliente.gui.MainFrameCliente import *
 from empregado.gui.MainFrameEmpregado import *
@@ -13,39 +8,51 @@ from pessoaFisica.gui.MainFramePessoaFisica import *
 from pessoaJuridica.gui.MainFramePessoaJuridica import *
 from tipoServico.gui.MainFrameTipoServico import *
 
-def telaMain():
-    root = Tk()
+class TelaMain:
+    def __init__(self):
+        self.root = Tk()
+        self.master = self.root
+        self.root.geometry('300x250+150+150')
+        self.root.title("Serviços de limpeza")
+        self.master.resizable(width=0, height=0)
 
-    label = Label(root,text="Bem vindo ao gerenciador Serviço de Limpeza.\n Selecione uma entidade:")
-    label.grid(row=0,column=0)
+        self.label = Label(self.master,text="Bem vindo ao gerenciador Serviço de Limpeza.\n Selecione uma entidade:")
+        self.label.pack()
 
-    bt1 = Button(root, width=20, text="Alocação", command=intentAlocacao)
-    bt1.grid(row = 1,column= 0)
+        self.bt1 = Button(self.master, width=20, text="Alocação", command=lambda:intentAlocacao(self.master))
+        self.bt1.pack()
 
-    bt2 = Button(root, width=20, text="Cliente", command=intentCliente)
-    bt2.grid(row=2, column=0)
+        self.bt2 = Button(self.master, width=20, text="Cliente", command=lambda:intentCliente(self.master))
+        self.bt2.pack()
 
-    bt3 = Button(root, width=20, text="Empregado", command=intentEmpregado)
-    bt3.grid(row=3, column=0)
+        self.bt3 = Button(self.master, width=20, text="Empregado", command=lambda:intentEmpregado(self.master))
+        self.bt3.pack()
 
-    bt4 = Button(root, width=20, text="Habilitação", command=intentHabilitacao)
-    bt4.grid(row=4, column=0)
+        self.bt4 = Button(self.master, width=20, text="Habilitação", command=lambda:intentHabilitacao(self.master))
+        self.bt4.pack()
 
-    bt5 = Button(root, width=20, text="Item Pedido", command=intentItemPedido)
-    bt5.grid(row=5, column=0)
+        self.bt9 = Button(self.master, width=20, text="Pedido", command=lambda:intentPedido(self.master))
+        self.bt4.pack()
 
-    bt6 = Button(root, width=20, text="Pessoa Física", command=intentPessoaFisica)
-    bt6.grid(row=6, column=0)
+        self.bt5 = Button(self.master, width=20, text="Item Pedido", command=lambda:intentItemPedido(self.master))
+        self.bt5.pack()
 
-    bt7 = Button(root, width=20, text="Pessoa Jurídica", command=intentPessoaJuridica)
-    bt7.grid(row=7, column=0)
+        self.bt6 = Button(self.master, width=20, text="Pessoa Física", command=self.abrePessoaFisica)
+        self.bt6.pack()
 
-    bt8 = Button(root, width=20, text="Tipo Serviço", command=intentTipoServico)
-    bt8.grid(row=8, column=0)
+        self.bt7 = Button(self.master, width=20, text="Pessoa Jurídica", command=self.abrePessoaJuridica)
+        self.bt7.pack()
 
-    root.geometry('300x300+200+200')
-    root.mainloop()
-def intentBt1():
-    root.de
-telaMain()
+        self.bt8 = Button(self.master, width=20, text="Tipo Serviço", command=lambda:intentTipoServico(self.master))
+        self.bt8.pack()
 
+        self.root.mainloop()
+
+    def abrePessoaJuridica(self):
+        MainFramePessoaJuridica()
+
+    def abrePessoaFisica(self):
+        MainFramePessoaFisica()
+
+if __name__ == '__main__':
+    TelaMain()
