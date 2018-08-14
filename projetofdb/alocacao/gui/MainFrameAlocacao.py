@@ -48,8 +48,6 @@ class MainFrameAlocacao:
         # Botões de interação
         self.btnApagar = ttk.Button(self.master,text='DELETAR', command=self.removerAlocacao)
         self.btnApagar.grid(row=4, column=3, padx=10)
-        self.btnAtualizar = ttk.Button(self.frame, text='ATUALIZAR')
-        self.btnAtualizar.grid(row=10, column=2, pady=10)
 
         #Label de exibição das mensagens de erros relacionadas as regras de negócio
         self.texto = Label(self.frame, text='', font=self.fontErro, fg="red")
@@ -62,7 +60,7 @@ class MainFrameAlocacao:
         self.scrollbar_vertical = Scrollbar(self.master, orient='vertical', command=self.tree.yview)
 
         # Adiciona scrollbar_vertical de rolagem
-        self.scrollbar_vertical.place(x=450, y=243, height=217 + 10)
+        self.scrollbar_vertical.place(x=450, y=198, height=217 + 10)
 
         self.tree.configure(yscroll=self.scrollbar_vertical.set)
 
@@ -110,7 +108,7 @@ class MainFrameAlocacao:
         if verificador != None:
             if verificador.args[0] == 1062:
                 self.texto.grid()
-                self.texto["text"] = "*Alocação já cadastrada no sistema"
+                self.texto["text"] = "*Empregado já alocado em outro projeto"
                 booleano = False
             elif verificador.args[0] == 1264:
                 if "matricula_empregado" in verificador.args[1]:
@@ -125,7 +123,6 @@ class MainFrameAlocacao:
                     self.erroNumeroPedido.grid()
                     self.erroNumeroPedido["text"] = "*Valor máximo excedido (máximo: 11 caracteres)"
             elif verificador.args[0] == 1452:
-                print("codigo_servico" in verificador.args[1])
                 if "matricula_empregado" in verificador.args[1]:
                     self.erroMatriculaEmpregado.grid()
                     self.erroMatriculaEmpregado["text"] = "*Matrícula de empregado não cadastrado no sistema"
@@ -173,7 +170,7 @@ class MainFrameAlocacao:
         if alocacao != None:
             verificador = alocacaoServices.removerAlocacao(alocacao)
             if verificador == None:
-                self.texto["text"] = "Alocação excluída com sucesso"
+                self.texto["text"] = "Alocação excluído com sucesso"
                 self.listarAlocacoes()
             else:
                 self.texto["text"] = verificador
@@ -201,7 +198,7 @@ class MainFrameAlocacao:
     #Limpando as labels para evitar mensagens de erros inconsistentes
     def limparLabels(self):
         self.erroMatriculaEmpregado["text"] = ""
-        self.erroMatriculaEmpregado["text"] = ""
+        self.erroCodigoServico["text"] = ""
         self.erroNumeroPedido["text"] = ""
         self.texto["text"] = ""
 
