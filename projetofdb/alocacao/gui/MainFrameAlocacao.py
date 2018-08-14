@@ -170,7 +170,7 @@ class MainFrameAlocacao:
         if alocacao != None:
             verificador = alocacaoServices.removerAlocacao(alocacao)
             if verificador == None:
-                self.texto["text"] = "Alocação excluído com sucesso"
+                self.texto["text"] = "Alocação excluída com sucesso"
                 self.listarAlocacoes()
             else:
                 self.texto["text"] = verificador
