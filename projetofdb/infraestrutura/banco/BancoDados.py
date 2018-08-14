@@ -5,7 +5,7 @@ from pymysql import MySQLError
 class Banco:
 
     def __init__(self):
-        self.CONNECTION = pymysql.connect("localhost", "root", "", "servicos_limpeza")
+        self.CONNECTION = pymysql.connect("localhost", "root", "root", "servicos_limpeza")
         self.CURSOR = self.CONNECTION.cursor()
 
     def select(self,querySql):
