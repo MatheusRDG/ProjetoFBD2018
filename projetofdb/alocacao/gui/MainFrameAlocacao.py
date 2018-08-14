@@ -110,7 +110,7 @@ class MainFrameAlocacao:
         if verificador != None:
             if verificador.args[0] == 1062:
                 self.texto.grid()
-                self.texto["text"] = "*Item de pedido já cadastrado no sistema"
+                self.texto["text"] = "*Alocação já cadastrada no sistema"
                 booleano = False
             elif verificador.args[0] == 1264:
                 if "matricula_empregado" in verificador.args[1]:
@@ -162,7 +162,7 @@ class MainFrameAlocacao:
             verificador = alocacaoServices.inserirAlocacao(Alocacao(dados[0], dados[1], dados[2]))
             if self.validarCadastroAlocacao(verificador):
                 self.texto.grid()
-                self.texto["text"] = "Item de pedido cadastrado com sucesso"
+                self.texto["text"] = "Alocação cadastrada com sucesso"
                 self.limparEntry()
                 self.listarAlocacoes()
 
@@ -173,7 +173,7 @@ class MainFrameAlocacao:
         if alocacao != None:
             verificador = alocacaoServices.removerAlocacao(alocacao)
             if verificador == None:
-                self.texto["text"] = "Item excluído com sucesso"
+                self.texto["text"] = "Alocação excluída com sucesso"
                 self.listarAlocacoes()
             else:
                 self.texto["text"] = verificador
