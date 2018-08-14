@@ -12,7 +12,7 @@ class TelaMain:
     def __init__(self):
         self.root = Tk()
         self.master = self.root
-        self.root.geometry('300x250+150+150')
+        self.root.geometry('255x280+150+150')
         self.root.title("Serviços de limpeza")
         self.master.resizable(width=0, height=0)
 
@@ -31,8 +31,8 @@ class TelaMain:
         self.bt4 = Button(self.master, width=20, text="Habilitação", command=self.abreHabilitacao)
         self.bt4.grid(row=5, column=1)
 
-        self.bt9 = Button(self.master, width=20, text="Pedido", command=self.abreItemPedido)
-        self.bt4.grid(row=6, column=1)
+        self.bt9 = Button(self.master, width=20, text="Pedido", command=self.abrePedido)
+        self.bt9.grid(row=6, column=1)
 
         self.bt5 = Button(self.master, width=20, text="Item Pedido", command=self.abreItemPedido)
         self.bt5.grid(row=7, column=1)
